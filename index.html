@@ -1183,7 +1183,7 @@
   });
 
   $('#guestSignupBtn').addEventListener('click', function(){
-    navigateWithLoading(function(){ stack=[]; cur={screen: loadAccount() ? 'login' : 'signup', tab:null}; render(); });
+    navigateWithLoading(function(){ stack=[]; cur={screen:'signup', tab:null}; render(); });
   });
   $all('.guest-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
