@@ -155,6 +155,13 @@
   .auth-sub{font-size:0.8438rem; color:var(--ink-faint); text-align:center; margin:6px 0 26px;}
   .auth-form{display:flex; flex-direction:column; gap:12px;}
   .auth-form .btn{margin-top:6px;}
+  /* Guests have no account, so hide account-only controls. */
+  body.is-guest .icon-bell, body.is-guest .icon-user{display:none;}
+  body.is-guest .hero-copy{cursor:default;}
+  body.is-guest .hero-copy .hi::after{content:none;}
+  .topbar .guest-signup{display:none;}
+  body.is-guest .topbar .guest-signup{display:inline-flex;}
+  .topbar.on-hero .guest-signup{background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.3); color:#fff;}
   .auth-or{display:flex; align-items:center; gap:10px; margin:18px 0 12px; font-size:0.75rem; color:var(--ink-faint);}
   .auth-or::before, .auth-or::after{content:''; flex:1; height:1px; background:var(--line);}
   .auth-switch{text-align:center; font-size:0.8125rem; color:var(--ink-soft); margin-top:18px;}
@@ -637,10 +644,11 @@
           <div class="tb-right">
             <span class="icon-btn icon-bell"><span class="dot"></span></span>
             <span class="icon-btn icon-user"></span>
+            <button type="button" class="btn btn-tint btn-sm guest-signup" id="guestSignupBtn">Sign up</button>
           </div>
         </div>
         <div class="hero-copy" id="heroGreeting" role="button" tabindex="0">
-          <div class="hi">Welcome back</div>
+          <div class="hi" id="heroGreetingHi">Welcome back</div>
           <h1 id="heroGreetingName">there</h1>
         </div>
       </div>
@@ -907,8 +915,8 @@
   var heroGreeting=$('#heroGreeting');
   if(heroGreeting){
     heroGreeting.setAttribute('aria-label','Open profile');
-    heroGreeting.addEventListener('click', function(){ goTo('profile'); });
-    heroGreeting.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goTo('profile'); } });
+    heroGreeting.addEventListener('click', function(){ if(state.currentUser) goTo('profile'); });
+    heroGreeting.addEventListener('keydown', function(e){ if(state.currentUser && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); goTo('profile'); } });
   }
 
   var AIRPORTS = [
@@ -1005,6 +1013,15 @@
   function applyHeroGreeting(){
     var el=$('#heroGreetingName');
     if(el) el.textContent = state.currentUser ? state.currentUser.name : 'there';
+    var isGuest=!state.currentUser;
+    var hi=$('#heroGreetingHi');
+    if(hi) hi.textContent = isGuest ? 'Hello' : 'Welcome back';
+    document.body.classList.toggle('is-guest', isGuest);
+    var greet=$('#heroGreeting');
+    if(greet){
+      if(isGuest){ greet.removeAttribute('role'); greet.setAttribute('tabindex','-1'); }
+      else { greet.setAttribute('role','button'); greet.setAttribute('tabindex','0'); }
+    }
   }
 
   // Date of birth: a fixed mm/dd/yyyy mask filled strictly left to right.
@@ -1163,6 +1180,9 @@
     navigateWithLoading(function(){ cur={screen:'signup', tab:null}; render(); });
   });
 
+  $('#guestSignupBtn').addEventListener('click', function(){
+    navigateWithLoading(function(){ stack=[]; cur={screen: loadAccount() ? 'login' : 'signup', tab:null}; render(); });
+  });
   $all('.guest-btn').forEach(function(btn){
     btn.addEventListener('click', function(){
       state.currentUser=null;
