@@ -1012,10 +1012,12 @@
   }
   function applyHeroGreeting(){
     var el=$('#heroGreetingName');
-    if(el) el.textContent = state.currentUser ? state.currentUser.name : 'there';
     var isGuest=!state.currentUser;
+    // Guests get a single-line "Hello there" headline; members get
+    // the small "Welcome back" line above their name.
+    if(el) el.textContent = isGuest ? 'Hello there' : state.currentUser.name;
     var hi=$('#heroGreetingHi');
-    if(hi) hi.textContent = isGuest ? 'Hello' : 'Welcome back';
+    if(hi) hi.hidden = isGuest;
     document.body.classList.toggle('is-guest', isGuest);
     var greet=$('#heroGreeting');
     if(greet){
