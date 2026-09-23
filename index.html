@@ -157,6 +157,8 @@
   .auth-form .btn{margin-top:6px;}
   .auth-switch{text-align:center; font-size:0.8125rem; color:var(--ink-soft); margin-top:18px;}
   .auth-switch a{color:var(--primary); font-weight:700; text-decoration:none; cursor:pointer;}
+  .dob-input{font-variant-numeric:tabular-nums; letter-spacing:.04em;}
+  .dob-hint{font-size:0.6875rem; color:var(--ink-faint);}
   .pw-meter{margin-top:7px;}
   .pw-meter-bar{display:flex; gap:4px; height:5px;}
   .pw-meter-bar span{flex:1; border-radius:3px; background:var(--line); transition:background .15s;}
@@ -584,7 +586,7 @@
             <div class="field"><label>First name</label><input type="text" id="suFirstName" placeholder="First name"></div>
             <div class="field"><label>Last name</label><input type="text" id="suLastName" placeholder="Last name"></div>
           </div>
-          <div class="field"><label>Date of birth</label><input type="date" id="suDob"></div>
+          <div class="field"><label for="suDob">Date of birth</label><input type="text" id="suDob" class="dob-input" inputmode="numeric" autocomplete="bday" placeholder="mm/dd/yyyy" maxlength="10" aria-describedby="suDobHint"><span class="dob-hint" id="suDobHint">Type month, day, then year</span></div>
           <div class="field"><label>Street address</label><input type="text" id="suStreet" placeholder="e.g. Bole Road 14"></div>
           <div class="field"><label>City</label><input type="text" id="suCity" placeholder="e.g. Addis Ababa"></div>
           <div class="field"><label>Email address</label><input type="text" id="suEmail" placeholder="you@example.com"></div>
@@ -999,8 +1001,71 @@
     if(el) el.textContent = state.currentUser ? state.currentUser.name : 'there';
   }
 
+  // Date of birth: a fixed mm/dd/yyyy mask filled strictly left to right.
+  // Digits always land in the next empty slot and Backspace removes the
+  // last one, so the month, day, and year slots are filled in order.
+  var DOB_MASK='mm/dd/yyyy';
+  var dobDigits='';
   var suDobInp=$('#suDob');
-  if(suDobInp) suDobInp.max=todayDateStr();
+  function dobSlotPos(n){ return n<2 ? n : n<4 ? n+1 : n+2; }
+  function renderDob(){
+    if(!suDobInp) return;
+    var focused=document.activeElement===suDobInp;
+    if(!dobDigits && !focused){ suDobInp.value=''; return; }
+    var out='', d=0;
+    for(var i=0;i<DOB_MASK.length;i++){
+      var ch=DOB_MASK.charAt(i);
+      out += (ch==='/') ? '/' : (d<dobDigits.length ? dobDigits.charAt(d++) : ch);
+    }
+    suDobInp.value=out;
+    if(focused){
+      var pos=dobDigits.length>=8 ? DOB_MASK.length : dobSlotPos(dobDigits.length);
+      suDobInp.setSelectionRange(pos,pos);
+    }
+  }
+  function addDobDigits(str){
+    var digits=String(str||'').replace(/\D/g,'');
+    dobDigits=(dobDigits+digits).slice(0,8);
+    renderDob();
+  }
+  function parseDob(){
+    if(dobDigits.length<8) return {error:'Enter your full date of birth as mm/dd/yyyy.'};
+    var m=+dobDigits.slice(0,2), d=+dobDigits.slice(2,4), y=+dobDigits.slice(4,8);
+    if(m<1 || m>12) return {error:'Enter a month between 01 and 12.'};
+    var daysInMonth=new Date(y, m, 0).getDate();
+    if(d<1 || d>daysInMonth) return {error:"That day doesn't exist in the month you entered."};
+    if(y<1900) return {error:'Enter a year from 1900 onward.'};
+    var iso=dobDigits.slice(4,8)+'-'+dobDigits.slice(0,2)+'-'+dobDigits.slice(2,4);
+    if(iso>todayDateStr()) return {error:"Date of birth can't be in the future."};
+    return {value:iso};
+  }
+  if(suDobInp){
+    suDobInp.addEventListener('beforeinput', function(e){
+      e.preventDefault();
+      if(e.inputType==='deleteContentBackward' || e.inputType==='deleteWordBackward'){
+        dobDigits=dobDigits.slice(0,-1); renderDob();
+      } else if(e.inputType==='deleteContentForward'){
+        renderDob();
+      } else if(e.data){
+        addDobDigits(e.data);
+      } else if(e.dataTransfer){
+        addDobDigits(e.dataTransfer.getData('text'));
+      }
+    });
+    // Fallback for browsers that let an edit through without beforeinput.
+    suDobInp.addEventListener('input', function(){
+      var digits=suDobInp.value.replace(/\D/g,'');
+      if(digits!==dobDigits){ dobDigits=''; addDobDigits(digits); }
+    });
+    suDobInp.addEventListener('paste', function(e){
+      e.preventDefault();
+      addDobDigits((e.clipboardData||window.clipboardData).getData('text'));
+    });
+    ['focus','click','keyup','select'].forEach(function(evt){
+      suDobInp.addEventListener(evt, function(){ setTimeout(renderDob,0); });
+    });
+    suDobInp.addEventListener('blur', renderDob);
+  }
 
   function passwordStrengthLevel(pw){
     if(!pw) return null;
@@ -1033,7 +1098,7 @@
   $('#signupForm').addEventListener('submit', function(e){
     e.preventDefault();
     var firstName=$('#suFirstName').value.trim(), lastName=$('#suLastName').value.trim();
-    var dob=$('#suDob').value;
+    var dobResult=parseDob();
     var street=$('#suStreet').value.trim(), city=$('#suCity').value.trim();
     var email=$('#suEmail').value.trim();
     var pw=$('#suPassword').value, pw2=$('#suConfirmPassword').value;
@@ -1042,9 +1107,10 @@
     if(firstName.length<1 || lastName.length<1){
       err.textContent='Enter your first and last name.'; err.hidden=false; return;
     }
-    if(!dob){
-      err.textContent='Enter your date of birth.'; err.hidden=false; return;
+    if(dobResult.error){
+      err.textContent=dobResult.error; err.hidden=false; return;
     }
+    var dob=dobResult.value;
     if(street.length<2 || city.length<1){
       err.textContent='Enter your street address and city.'; err.hidden=false; return;
     }
