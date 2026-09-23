@@ -1,4 +1,4 @@
-# Hid-Go
+# Guxo Flights
 
 A UI/UX portfolio prototype: a full-featured Ethiopian domestic flight booking mobile app, built as a single self-contained HTML file (vanilla JS, no frameworks).
 
