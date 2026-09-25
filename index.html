@@ -302,6 +302,28 @@
     .filter-field{flex:0 1 220px;}
   }
 
+  /* From/To airport dropdown: opens on tap, filters as you type. */
+  .ac-list{
+    position:absolute; left:0; right:0; top:calc(100% + 6px); z-index:30;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow);
+    max-height:292px; overflow-y:auto; padding:6px; overscroll-behavior:contain;
+  }
+  .ac-list[hidden]{display:none;}
+  .ac-head{font-size:0.6562rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); padding:6px 10px 4px;}
+  .ac-item{display:flex; align-items:center; gap:12px; padding:9px 10px; border-radius:10px; cursor:pointer;}
+  .ac-item:hover, .ac-item.active{background:var(--surface-alt);}
+  .ac-code{
+    width:46px; height:32px; border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    background:color-mix(in srgb, var(--primary) 10%, var(--surface)); color:var(--primary);
+    font-size:0.75rem; font-weight:800; letter-spacing:.04em;
+  }
+  .ac-item.selected .ac-code{background:linear-gradient(135deg, var(--primary), var(--primary-2)); color:#fff;}
+  .ac-text{min-width:0; flex:1;}
+  .ac-text b{display:block; font-size:0.875rem; font-weight:700; color:var(--ink);}
+  .ac-text small{display:block; font-size:0.7188rem; color:var(--ink-faint); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .ac-check{color:var(--primary); font-weight:800; flex-shrink:0;}
+  .ac-empty{padding:14px 10px; font-size:0.8125rem; color:var(--ink-faint);}
+
   /* From/To swap (idea from Megabus' search form) */
   .od-wrap{position:relative;}
   .swap-btn{
@@ -1729,6 +1751,79 @@
     });
   });
 
+  /* ---------- airport dropdown for the From / To fields ---------- */
+  // Tapping the field lists every airport (minus the one picked in the other
+  // field); typing filters by city, code or airport name. Arrow keys, Enter
+  // and Escape work too.
+  function attachAirportPicker(inp, listId, getExclude, afterPick){
+    var list=document.createElement('div');
+    list.className='ac-list'; list.id=listId; list.hidden=true;
+    list.setAttribute('role','listbox');
+    inp.parentNode.appendChild(list);
+    inp.setAttribute('role','combobox');
+    inp.setAttribute('aria-autocomplete','list');
+    inp.setAttribute('aria-controls', listId);
+    inp.setAttribute('aria-expanded','false');
+    var typed=false, active=-1, items=[];
+    function escText(v){ return String(v).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function render(){
+      var q = typed ? inp.value.trim().toLowerCase() : '';
+      var ex=getExclude(), cur=findAirportByInput(inp.value);
+      items=AIRPORTS.filter(function(a){
+        if(a.code===ex) return false;
+        return !q || a.city.toLowerCase().indexOf(q)>-1 || a.code.toLowerCase().indexOf(q)>-1 || a.name.toLowerCase().indexOf(q)>-1;
+      });
+      if(active>=items.length) active=items.length-1;
+      list.innerHTML = items.length
+        ? (q ? '' : '<div class="ac-head">All destinations</div>') + items.map(function(a, i){
+            var sel = cur && !typed && cur.code===a.code;
+            return '<div class="ac-item'+(i===active?' active':'')+(sel?' selected':'')+'" role="option" id="'+listId+'-'+a.code+'" data-code="'+a.code+'" aria-selected="'+(sel?'true':'false')+'">'+
+              '<span class="ac-code">'+a.code+'</span><span class="ac-text"><b>'+a.city+'</b><small>'+a.name+'</small></span>'+
+              (sel ? '<span class="ac-check" aria-hidden="true">✓</span>' : '')+'</div>';
+          }).join('')
+        : '<div class="ac-empty">No airports match “'+escText(inp.value.trim())+'”.</div>';
+      if(active>-1 && items[active]){
+        inp.setAttribute('aria-activedescendant', listId+'-'+items[active].code);
+        var el=list.querySelector('.ac-item.active'); if(el) el.scrollIntoView({block:'nearest'});
+      } else inp.removeAttribute('aria-activedescendant');
+    }
+    function open(){ list.hidden=false; inp.setAttribute('aria-expanded','true'); render(); }
+    function close(){ list.hidden=true; inp.setAttribute('aria-expanded','false'); typed=false; active=-1; }
+    function pick(code){
+      inp.value=formatAirport(airport(code));
+      close();
+      if(afterPick) afterPick();
+    }
+    inp.addEventListener('focus', function(){ typed=false; active=-1; open(); inp.select(); });
+    inp.addEventListener('click', function(){ if(list.hidden) open(); });
+    inp.addEventListener('input', function(){ typed=true; active=0; open(); });
+    inp.addEventListener('keydown', function(e){
+      if(e.key==='ArrowDown' || e.key==='ArrowUp'){
+        e.preventDefault();
+        if(list.hidden) open();
+        if(!items.length) return;
+        active = e.key==='ArrowDown' ? (active+1)%items.length : (active<=0 ? items.length-1 : active-1);
+        render();
+      } else if(e.key==='Enter' && !list.hidden && active>-1 && items[active]){
+        e.preventDefault(); pick(items[active].code);
+      } else if(e.key==='Escape' && !list.hidden){
+        e.preventDefault(); close();
+      }
+    });
+    // Keep focus in the field while a row is pressed, then pick it.
+    list.addEventListener('mousedown', function(e){ e.preventDefault(); });
+    list.addEventListener('click', function(e){
+      var row=e.target.closest('.ac-item'); if(row) pick(row.getAttribute('data-code'));
+    });
+    inp.addEventListener('blur', function(){
+      setTimeout(function(){
+        close();
+        // Tidy a typed city or code into "City (CODE)".
+        var a=findAirportByInput(inp.value); if(a) inp.value=formatAirport(a);
+      }, 120);
+    });
+  }
+
   /* ---------- reusable search form ---------- */
   var formSeq=0;
   function createSearchForm(){
@@ -1742,12 +1837,10 @@
         '<button type="button" class="trip-seg-btn" data-trip="round">Round trip</button>'+
       '</div>'+
       '<div class="od-wrap">'+
-        '<div class="field"><label>From</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-origin" list="'+ns+'-originList" autocomplete="off" placeholder="City or airport code"></div></div>'+
-        '<div class="field"><label>To</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-dest" list="'+ns+'-destList" autocomplete="off" placeholder="City or airport code"></div></div>'+
+        '<div class="field"><label for="'+ns+'-origin">From</label><div class="input-icon">'+ICONS.pin+'<input type="text" id="'+ns+'-origin" class="f-origin" autocomplete="off" placeholder="City or airport code"></div></div>'+
+        '<div class="field"><label for="'+ns+'-dest">To</label><div class="input-icon">'+ICONS.pin+'<input type="text" id="'+ns+'-dest" class="f-dest" autocomplete="off" placeholder="City or airport code"></div></div>'+
         '<button type="button" class="swap-btn" aria-label="Swap departure and destination" title="Swap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4"/><path d="M17 20V4M13 16l4 4 4-4"/></svg></button>'+
       '</div>'+
-      '<datalist id="'+ns+'-originList"></datalist>'+
-      '<datalist id="'+ns+'-destList"></datalist>'+
       '<div class="row2">'+
         '<div class="field"><label>Depart</label><div class="input-icon no-ic"><input type="date" class="f-date"></div></div>'+
         '<div class="field f-return-field" hidden><label>Return</label><div class="input-icon no-ic"><input type="date" class="f-return"></div></div>'+
@@ -1758,7 +1851,6 @@
       '<p class="form-error" hidden>Choose two different airports.</p>';
 
     var originInp=root.querySelector('.f-origin'), destInp=root.querySelector('.f-dest');
-    var originList=root.querySelector('#'+ns+'-originList'), destList=root.querySelector('#'+ns+'-destList');
     var dateInp=root.querySelector('.f-date');
     var returnField=root.querySelector('.f-return-field');
     var returnInp=root.querySelector('.f-return');
@@ -1770,33 +1862,16 @@
 
     function updatePaxDisplays(){ root.querySelectorAll('.f-paxcount').forEach(function(el){ el.textContent=pax; }); }
 
-    function fillDatalist(listEl, exclude){
-      listEl.innerHTML='';
-      AIRPORTS.forEach(function(a){
-        if(a.code===exclude) return;
-        var o=document.createElement('option'); o.value=formatAirport(a);
-        listEl.appendChild(o);
-      });
-    }
-    fillDatalist(originList, state.destination);
-    fillDatalist(destList, state.origin);
     originInp.value=formatAirport(airport(state.origin));
     destInp.value=formatAirport(airport(state.destination));
+    function codeOf(inp){ var a=findAirportByInput(inp.value); return a ? a.code : null; }
+    // Picking From moves straight on to To; picking To closes the list.
+    attachAirportPicker(originInp, ns+'-originList', function(){ return codeOf(destInp); }, function(){ destInp.focus(); });
+    attachAirportPicker(destInp, ns+'-destList', function(){ return codeOf(originInp); }, function(){ destInp.blur(); });
     var swapBtn=root.querySelector('.swap-btn');
     swapBtn.addEventListener('click', function(){
       var o=originInp.value; originInp.value=destInp.value; destInp.value=o;
-      var oa=findAirportByInput(originInp.value), da=findAirportByInput(destInp.value);
-      fillDatalist(destList, oa?oa.code:null);
-      fillDatalist(originList, da?da.code:null);
       swapBtn.classList.toggle('spin');
-    });
-    originInp.addEventListener('input', function(){
-      var a=findAirportByInput(originInp.value);
-      fillDatalist(destList, a?a.code:null);
-    });
-    destInp.addEventListener('input', function(){
-      var a=findAirportByInput(destInp.value);
-      fillDatalist(originList, a?a.code:null);
     });
 
     var todayStr=todayDateStr();
