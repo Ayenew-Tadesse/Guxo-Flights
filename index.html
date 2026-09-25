@@ -475,12 +475,131 @@
   .profile-avatar{width:76px;height:76px;border-radius:50%; background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; display:flex;align-items:center;justify-content:center; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.5rem;}
   .profile-name{font-size:1.1875rem; margin-top:12px;}
   .profile-sub{font-size:0.8125rem; color:var(--ink-faint); margin-top:2px;}
-  .miles-card{background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; border-radius:16px; padding:16px; margin:18px 0 6px; display:flex; justify-content:space-between; align-items:center;}
-  .miles-card svg{width:28px;height:28px; opacity:.85;}
-  .miles-card .m{font-family:'Poppins',sans-serif; font-weight:800; font-size:1.375rem;}
-  .miles-card span{opacity:.85; font-size:0.7188rem;}
-  .profile-row{display:flex; align-items:center; justify-content:space-between; padding:14px 2px; border-bottom:1px solid var(--line); font-size:0.875rem; font-weight:600; cursor:pointer;}
+  .profile-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 6px; border-bottom:1px solid var(--line); font-size:0.875rem; font-weight:600; cursor:pointer; border-radius:10px;}
   .profile-row .chev{color:var(--ink-faint);}
+  .profile-row .row-l{display:flex; align-items:center; gap:12px; min-width:0;}
+  .profile-row .row-ic{width:32px;height:32px;border-radius:50%; background:var(--surface-alt); color:var(--primary); display:flex;align-items:center;justify-content:center; flex-shrink:0;}
+  .profile-row .row-ic svg{width:16px;height:16px;}
+  .profile-row .row-r{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .profile-row .row-meta{font-size:0.75rem; font-weight:600; color:var(--ink-faint);}
+  .profile-row:hover{background:color-mix(in srgb, var(--primary) 4%, transparent);}
+  .profile-row.danger{color:var(--bad);} .profile-row.danger .row-ic{color:var(--bad); background:color-mix(in srgb, var(--bad) 10%, transparent);}
+  .profile-row.accent{color:var(--primary);}
+  .profile-edit-btn{margin-top:12px;}
+
+  /* profile completeness */
+  .complete-card{background:var(--surface-alt); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-top:14px; cursor:pointer; text-align:left; width:100%; font-family:inherit; color:var(--ink);}
+  .complete-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:0.8125rem; font-weight:700;}
+  .complete-top span:last-child{color:var(--primary); font-size:0.75rem;}
+  .complete-bar{height:6px; border-radius:3px; background:var(--line); margin:8px 0 6px; overflow:hidden;}
+  .complete-bar b{display:block; height:100%; border-radius:3px; background:linear-gradient(90deg, var(--primary), var(--primary-2)); transition:width .4s ease;}
+  .complete-sub{font-size:0.7188rem; color:var(--ink-soft);}
+
+  /* Guxo Points card (profile + points screen) */
+  .points-card{background:linear-gradient(135deg,var(--primary),var(--primary-2)); color:#fff; border-radius:16px; padding:16px; margin:14px 0 6px; cursor:pointer; position:relative; overflow:hidden; display:block; width:100%; text-align:left; border:none; font-family:inherit;}
+  .points-card.static{cursor:default;}
+  .points-card::after{content:''; position:absolute; right:-30px; top:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,.1);}
+  .pc-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; position:relative; z-index:1;}
+  .pc-label{font-size:0.7188rem; opacity:.85;}
+  .pc-bal{font-family:'Poppins',sans-serif; font-weight:800; font-size:1.625rem; line-height:1.1; margin-top:2px;}
+  .pc-tier{font-size:0.6562rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; background:rgba(255,255,255,.22); padding:4px 10px; border-radius:999px; white-space:nowrap;}
+  .pc-bar{height:5px; border-radius:3px; background:rgba(255,255,255,.25); margin:14px 0 6px; overflow:hidden; position:relative; z-index:1;}
+  .pc-bar b{display:block; height:100%; border-radius:3px; background:#fff;}
+  .pc-sub{font-size:0.7188rem; opacity:.9; position:relative; z-index:1;}
+  .pc-apps{display:flex; gap:6px; margin-top:10px; position:relative; z-index:1; flex-wrap:wrap;}
+  .pc-apps span{font-size:0.6562rem; font-weight:700; background:rgba(255,255,255,.18); padding:3px 9px; border-radius:999px;}
+  .guest-cta{background:var(--surface-alt); border:1px dashed var(--line-strong); border-radius:16px; padding:16px; margin:14px 0 6px; text-align:center;}
+  .guest-cta h3{font-size:0.9375rem;}
+  .guest-cta p{font-size:0.75rem; color:var(--ink-soft); margin:4px 0 12px;}
+
+  .earn-row{display:flex; align-items:center; gap:12px; padding:12px 2px; border-bottom:1px solid var(--line);}
+  .earn-row[role="button"]{cursor:pointer;}
+  .earn-row .row-ic{width:34px;height:34px;border-radius:50%; background:var(--surface-alt); color:var(--primary); display:flex;align-items:center;justify-content:center; flex-shrink:0;}
+  .earn-row .row-ic svg{width:16px;height:16px;}
+  .earn-mid{flex:1; min-width:0;}
+  .earn-mid .t{font-size:0.8438rem; font-weight:700;}
+  .earn-mid .d{font-size:0.7188rem; color:var(--ink-soft); margin-top:1px;}
+  .earn-row .pts{font-size:0.75rem; font-weight:800; color:var(--primary); white-space:nowrap;}
+  .earn-row.done .pts{color:var(--good);}
+  .earn-row.soon{opacity:.6;}
+  .ledger-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:11px 2px; border-bottom:1px solid var(--line);}
+  .ledger-row .t{font-size:0.8125rem; font-weight:600;}
+  .ledger-row .d{font-size:0.6875rem; color:var(--ink-faint); margin-top:1px;}
+  .ledger-row .v{font-family:'Poppins',sans-serif; font-weight:800; font-size:0.875rem; color:var(--good); white-space:nowrap;}
+  .ledger-row .v.neg{color:var(--bad);}
+  .ledger-empty{font-size:0.8125rem; color:var(--ink-faint); padding:12px 2px;}
+  .info-note{font-size:0.75rem; color:var(--ink-soft); background:var(--surface-alt); border-radius:12px; padding:10px 12px; margin-top:12px; line-height:1.5;}
+
+  /* forms on profile screens */
+  .form-stack{display:flex; flex-direction:column; gap:12px; margin-top:8px;}
+  .form-stack .field{margin-bottom:0;}
+  .check-row{display:flex; align-items:center; gap:10px; font-size:0.8125rem; font-weight:600; color:var(--ink); cursor:pointer;}
+  .check-row input{width:18px; height:18px; accent-color:var(--primary); margin:0;}
+
+  /* saved payment cards */
+  .card-list{display:flex; flex-direction:column; gap:10px; margin-top:6px;}
+  .saved-card{display:flex; align-items:center; gap:12px; border:1.5px solid var(--line); border-radius:14px; padding:12px 14px; background:var(--surface);}
+  .saved-card.default{border-color:var(--primary); background:color-mix(in srgb, var(--primary) 6%, var(--surface));}
+  .sc-mid{flex:1; min-width:0;}
+  .sc-mid .t{font-size:0.875rem; font-weight:700; font-variant-numeric:tabular-nums;}
+  .sc-mid .d{font-size:0.7188rem; color:var(--ink-faint); margin-top:1px;}
+  .sc-actions{display:flex; align-items:center; gap:6px; flex-shrink:0;}
+  .pill-default{font-size:0.6562rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--primary); background:color-mix(in srgb, var(--primary) 14%, transparent); padding:4px 9px; border-radius:999px;}
+  .link-btn{border:none; background:none; font-family:inherit; font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer; padding:6px 4px; border-radius:8px;}
+  .icon-x{width:30px;height:30px;border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink-faint); display:flex;align-items:center;justify-content:center; cursor:pointer; padding:0;}
+  .icon-x:hover{color:var(--bad); border-color:color-mix(in srgb, var(--bad) 40%, var(--line));}
+  .card-preview{
+    background:linear-gradient(135deg, #091540, var(--primary)); color:#fff; border-radius:18px; padding:20px; margin:14px auto 4px;
+    aspect-ratio:1.7; width:100%; max-width:360px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--shadow);
+  }
+  .cp-top{display:flex; justify-content:space-between; align-items:center;}
+  .cp-chip{width:34px; height:25px; border-radius:6px; background:linear-gradient(135deg,#F2D48A,#C9A24B);}
+  .cp-brand{font-size:0.875rem; font-weight:800; letter-spacing:.06em;}
+  .cp-num{font-family:'Poppins',sans-serif; font-size:1.125rem; font-weight:600; letter-spacing:.12em; font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .cp-bottom{display:flex; justify-content:space-between; gap:12px; font-size:0.625rem; text-transform:uppercase; letter-spacing:.06em; opacity:.95;}
+  .cp-bottom b{display:block; font-size:0.8125rem; letter-spacing:.02em; margin-top:2px; font-weight:600; text-transform:none; max-width:190px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+
+  /* connected apps */
+  .app-tile{border:1px solid var(--line); border-radius:16px; padding:14px; background:var(--surface); box-shadow:var(--shadow); margin-top:12px;}
+  .app-tile.soon{box-shadow:none; background:var(--surface-alt);}
+  .at-top{display:flex; align-items:center; gap:12px;}
+  .at-logo{width:42px;height:42px;border-radius:12px; display:flex;align-items:center;justify-content:center; color:#fff; font-family:'Poppins',sans-serif; font-weight:800; font-size:1rem; flex-shrink:0;}
+  .at-mid{flex:1; min-width:0;}
+  .at-mid .t{font-size:0.9375rem; font-weight:800;}
+  .at-mid .d{font-size:0.7188rem; color:var(--ink-soft); margin-top:1px;}
+  .at-status{font-size:0.6562rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; padding:4px 9px; border-radius:999px; white-space:nowrap;}
+  .at-status.linked{color:var(--good); background:color-mix(in srgb, var(--good) 14%, transparent);}
+  .at-status.off{color:var(--ink-faint); background:var(--surface-alt);}
+  .at-status.soon{color:var(--ink-faint); background:var(--surface);}
+  .at-body{font-size:0.75rem; color:var(--ink-soft); margin-top:10px; line-height:1.5;}
+  .at-actions{display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;}
+  .at-actions .btn{flex:1; text-decoration:none;}
+
+  /* checkout: saved cards + points */
+  .pay-saved{display:flex; flex-direction:column; gap:8px;}
+  .pay-saved-opt{display:flex; align-items:center; gap:10px; background:var(--surface); border:1.5px solid var(--line); border-radius:12px; padding:10px 12px; cursor:pointer; font-size:0.8125rem; font-weight:600;}
+  .pay-saved-opt.selected{border-color:var(--primary);}
+  .pay-saved-opt input{accent-color:var(--primary); margin:0;}
+  .pay-saved-opt .grow{flex:1;}
+  .pay-saved-opt small{color:var(--ink-faint); font-weight:500;}
+  .points-redeem{display:flex; align-items:center; gap:10px; background:color-mix(in srgb, var(--primary) 6%, var(--surface)); border:1px solid color-mix(in srgb, var(--primary) 20%, var(--line)); border-radius:14px; padding:12px 14px; margin-top:14px; cursor:pointer;}
+  .points-redeem input{width:18px;height:18px; accent-color:var(--primary); margin:0;}
+  .points-redeem .grow{flex:1; min-width:0;}
+  .points-redeem .t{display:block; font-size:0.8125rem; font-weight:700;}
+  .points-redeem .d{display:block; font-size:0.6875rem; color:var(--ink-soft);}
+  .points-redeem .v{font-weight:800; color:var(--good); font-size:0.8125rem; white-space:nowrap;}
+  .price-line.discount span:last-child{color:var(--good);}
+  .earn-note{font-size:0.7188rem; color:var(--primary); font-weight:700; margin-top:8px; text-align:right;}
+
+  /* toast */
+  .toast{
+    position:fixed; left:50%; bottom:96px; transform:translateX(-50%); z-index:150;
+    background:var(--ink); color:var(--frame); font-size:0.8125rem; font-weight:600;
+    padding:10px 16px; border-radius:999px; box-shadow:var(--shadow); white-space:nowrap;
+    animation:toastIn .25s ease;
+  }
+  .toast[hidden]{display:none;}
+  @keyframes toastIn{from{opacity:0; transform:translate(-50%,8px);} to{opacity:1; transform:translate(-50%,0);}}
 
   /* TAB BAR */
   .tabbar{
@@ -794,6 +913,7 @@
           </button>
         </div>
         <div class="pay-form" id="payForm" hidden></div>
+        <div id="pointsRedeemBox"></div>
         <div class="itin-mini" id="priceBox" style="margin-top:16px;"></div>
         <button class="btn btn-primary btn-block" id="payBtn" style="margin-top:6px;" disabled>Pay &amp; confirm</button>
         <div class="trust-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Secure checkout · No hidden fees · The total above is exactly what you pay</span></div>
@@ -881,6 +1001,69 @@
       <div class="scroll" id="profileBox"></div>
     </section>
 
+    <!-- PERSONAL DETAILS -->
+    <section class="screen" id="screen-edit-profile" hidden>
+      <div class="topbar"><div class="tb-left"><span class="btn-back icon-back" id="backFromEditProfile"></span><span class="tb-title">Personal details</span></div></div>
+      <div class="scroll">
+        <div class="complete-card" id="editCompleteCard" style="cursor:default"></div>
+        <form id="editProfileForm" class="form-stack" autocomplete="on" novalidate>
+          <div class="row2">
+            <div class="field"><label for="epFirst">First name</label><input type="text" id="epFirst" autocomplete="given-name" placeholder="First name"></div>
+            <div class="field"><label for="epLast">Last name</label><input type="text" id="epLast" autocomplete="family-name" placeholder="Last name"></div>
+          </div>
+          <div class="field"><label for="epEmail">Email address</label><input type="text" id="epEmail" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="epPhone">Phone number</label><input type="text" id="epPhone" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx" maxlength="13"></div>
+          <div class="field"><label for="epDob">Date of birth</label><input type="text" id="epDob" class="dob-input" inputmode="numeric" autocomplete="bday" placeholder="mm/dd/yyyy" maxlength="10"><span class="dob-hint">Type month, day, then year</span></div>
+          <div class="field"><label for="epStreet">Street address</label><input type="text" id="epStreet" autocomplete="address-line1" placeholder="e.g. Bole Road 14"></div>
+          <div class="field"><label for="epCity">City</label><input type="text" id="epCity" autocomplete="address-level2" placeholder="e.g. Addis Ababa"></div>
+          <p class="form-error" id="editProfileError" hidden></p>
+          <button type="submit" class="btn btn-primary btn-block">Save changes</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- PAYMENT METHODS -->
+    <section class="screen" id="screen-cards" hidden>
+      <div class="topbar"><div class="tb-left"><span class="btn-back icon-back" id="backFromCards"></span><span class="tb-title">Payment methods</span></div></div>
+      <div class="scroll" id="cardsBox"></div>
+    </section>
+
+    <!-- ADD A CARD -->
+    <section class="screen" id="screen-add-card" hidden>
+      <div class="topbar"><div class="tb-left"><span class="btn-back icon-back" id="backFromAddCard"></span><span class="tb-title">Add a card</span></div></div>
+      <div class="scroll">
+        <div class="card-preview" aria-hidden="true">
+          <div class="cp-top"><span class="cp-chip"></span><span class="cp-brand" id="cpBrand">CARD</span></div>
+          <div class="cp-num" id="cpNum">•••• •••• •••• ••••</div>
+          <div class="cp-bottom"><div>Card holder<b id="cpName">Your name</b></div><div style="text-align:right">Expires<b id="cpExp">MM/YY</b></div></div>
+        </div>
+        <form id="addCardForm" class="form-stack" autocomplete="on" novalidate>
+          <div class="field"><label for="acName">Name on card</label><input type="text" id="acName" autocomplete="cc-name" placeholder="Full name"></div>
+          <div class="field"><label for="acNumber">Card number</label><input type="text" id="acNumber" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+          <div class="row2">
+            <div class="field"><label for="acExpiry">Expiry</label><input type="text" id="acExpiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5"></div>
+            <div class="field"><label for="acCvc">CVC</label><input type="password" id="acCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" maxlength="4"></div>
+          </div>
+          <label class="check-row"><input type="checkbox" id="acDefault"> Make this my default card</label>
+          <p class="form-error" id="addCardError" hidden></p>
+          <button type="submit" class="btn btn-primary btn-block">Save card</button>
+          <p class="info-note" style="margin-top:0">We only keep the card's brand, last 4 digits and expiry on this device — never the full number or CVC. This is a prototype; no card is charged.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- CONNECTED APPS -->
+    <section class="screen" id="screen-connected" hidden>
+      <div class="topbar"><div class="tb-left"><span class="btn-back icon-back" id="backFromConnected"></span><span class="tb-title">Connected apps</span></div></div>
+      <div class="scroll" id="connectedBox"></div>
+    </section>
+
+    <!-- GUXO POINTS -->
+    <section class="screen" id="screen-points" hidden>
+      <div class="topbar"><div class="tb-left"><span class="btn-back icon-back" id="backFromPoints"></span><span class="tb-title">Guxo Points</span></div></div>
+      <div class="scroll" id="pointsBox"></div>
+    </section>
+
     <!-- TAB BAR -->
     <nav class="tabbar" id="tabbar">
       <span class="tab-indicator" id="tabIndicator"></span>
@@ -889,6 +1072,20 @@
       <button class="tab-btn" data-tab="trips"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/><path d="M9 15l2.2 2L15 13"/></svg><span>My Trips</span></button>
       <button class="tab-btn" data-tab="checkin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 14l2 2 4-4"/></svg><span>Check-in</span></button>
     </nav>
+
+    <!-- GENERIC CONFIRM MODAL (link / unlink apps, remove cards) -->
+    <div class="modal-backdrop" id="confirmModal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+        <h3 id="confirmTitle"></h3>
+        <p id="confirmBody"></p>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-primary btn-block" id="confirmOk"></button>
+          <button type="button" class="btn btn-ghost btn-block" id="confirmCancel">Not now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
     <!-- CANCEL TRIP CONFIRM MODAL -->
     <div class="modal-backdrop" id="cancelModal" hidden>
@@ -915,6 +1112,7 @@
 (function(){
   "use strict";
 
+  function svgIc(inner){ return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+inner+'</svg>'; }
   var ICONS = {
     back:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
     bell:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
@@ -926,6 +1124,18 @@
     check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     cancelX:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></svg>'
   };
+  ICONS.card=svgIc('<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>');
+  ICONS.link=svgIc('<path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5"/>');
+  ICONS.star=svgIc('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/>');
+  ICONS.help=svgIc('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><path d="M12 17h.01"/>');
+  ICONS.users=svgIc('<circle cx="9" cy="8" r="3.2"/><path d="M3 20c1.1-3.2 3.4-5 6-5s4.9 1.8 6 5"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M18 15c1.4.6 2.4 2.2 3 5"/>');
+  ICONS.logout=svgIc('<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 17l-5-5 5-5"/><path d="M5 12h11"/>');
+  ICONS.plus=svgIc('<path d="M12 5v14M5 12h14"/>');
+  ICONS.close=svgIc('<path d="M6 6l12 12M18 6L6 18"/>');
+  ICONS.gift=svgIc('<rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/><path d="M12 8c-2-3-6-3-6-.5S10 8 12 8zM12 8c2-3 6-3 6-.5S14 8 12 8z"/>');
+  ICONS.userIc=svgIc('<circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.4-3.6 4.2-5.5 7-5.5s5.6 1.9 7 5.5"/>');
+  ICONS.bellIc=svgIc('<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>');
+  ICONS.planeIc=svgIc('<path d="M2 16l20-7-4 12-4-4-6 3 2-6-8 2z"/>');
   document.querySelectorAll('.icon-btn.icon-bell').forEach(function(el){
     el.insertAdjacentHTML('afterbegin', ICONS.bell);
     el.setAttribute('role','button'); el.setAttribute('tabindex','0'); el.setAttribute('aria-label','Notifications');
@@ -977,7 +1187,6 @@
   function $(s,r){return (r||document).querySelector(s);}
   function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
   function fmtPrice(n){return 'ETB '+Math.round(n).toLocaleString();}
-  function milesFor(n){return Math.round(n/8).toLocaleString();}
   function fmtDur(m){return Math.floor(m/60)+'h '+(m%60)+'m';}
   function fmtTime(d){var h=d.getHours(), m=d.getMinutes(), ap=h>=12?'PM':'AM'; h=h%12; if(h===0) h=12; return h+':'+(m<10?'0':'')+m+' '+ap;}
   function fmtDate(d){return d.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'});}
@@ -1037,6 +1246,144 @@
     if(!name) return 'there';
     return name.trim().split(/\s+/)[0];
   }
+  function esc(v){
+    return String(v==null?'':v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+  }
+  function listText(arr){ return arr.length<2 ? arr.join('') : arr.slice(0,-1).join(', ')+' and '+arr[arr.length-1]; }
+
+  /* ---------- Guxo Points: one balance shared by the Guxo app family ---------- */
+  // Earn 1 point per ETB 10 paid; every 10 points = ETB 1 off at checkout.
+  // Tiers go by lifetime points earned. The ledger is stored with the account
+  // on this device, so it survives logging out and back in.
+  var TIERS=[{name:'Blue', min:0},{name:'Silver', min:1000},{name:'Gold', min:3000}];
+  var PROFILE_BONUS=250, LINK_BONUS=500, MIN_REDEEM=100;
+  var SIBLING_APPS=[
+    {id:'guxo', name:'Guxo', what:'Bus booking', c1:'#0E6B5C', c2:'#3FAE8E', mark:'G', url:'https://ayenew-tadesse.github.io/Guxo/', live:true},
+    {id:'gexi', name:'Gexi', what:'Online shopping', c1:'#4C5A85', c2:'#8894B8', mark:'Gx', url:null, live:false}
+  ];
+  function pointsFor(etb){ return Math.round(etb/10); }
+  function fmtPts(n){ return Math.round(n).toLocaleString(); }
+  function ledger(){ var a=state.currentUser; return a && Array.isArray(a.points) ? a.points : []; }
+  function pointsBalance(){ return ledger().reduce(function(sum,e){ return sum+e.pts; },0); }
+  function lifetimePoints(){
+    return ledger().reduce(function(sum,e){ return sum+(e.kind==='earn'||e.kind==='bonus'||e.kind==='reverse' ? e.pts : 0); },0);
+  }
+  function tierInfo(){
+    var life=lifetimePoints(), cur=TIERS[0], next=TIERS[1];
+    TIERS.forEach(function(t,i){ if(life>=t.min){ cur=t; next=TIERS[i+1]||null; } });
+    return {life:life, tier:cur.name, next:next, toNext:next ? next.min-life : 0,
+      pct:next ? Math.max(0, Math.min(100, Math.round((life-cur.min)/(next.min-cur.min)*100))) : 100};
+  }
+  // Adds a ledger entry; a `key` makes one-time bonuses and per-trip entries idempotent.
+  function addPoints(pts, text, kind, key){
+    var a=state.currentUser;
+    if(!a || !pts) return 0;
+    if(!Array.isArray(a.points)) a.points=[];
+    if(key && a.points.some(function(e){ return e.key===key; })) return 0;
+    a.points.unshift({id:uid(), key:key||null, kind:kind, text:text, pts:pts, at:new Date().toISOString()});
+    saveAccount(a);
+    return pts;
+  }
+  function linkedApps(){ var a=state.currentUser; return (a && a.linked) || {}; }
+  function savedCards(){ var a=state.currentUser; return (a && Array.isArray(a.cards)) ? a.cards : []; }
+
+  var PROFILE_FIELDS=[['firstName','first name'],['lastName','last name'],['email','email'],['phone','phone number'],['dob','date of birth'],['street','street address'],['city','city']];
+  function profileCompletion(a){
+    var missing=PROFILE_FIELDS.filter(function(f){ return !(a && a[f[0]] && String(a[f[0]]).trim()); }).map(function(f){ return f[1]; });
+    return {pct:Math.round((PROFILE_FIELDS.length-missing.length)/PROFILE_FIELDS.length*100), missing:missing};
+  }
+  function completeCardHtml(a){
+    var c=profileCompletion(a);
+    var bonusDone=ledger().some(function(e){ return e.key==='profile-bonus'; });
+    var right = c.pct===100 ? (bonusDone ? '+'+PROFILE_BONUS+' pts earned' : 'Save to earn +'+PROFILE_BONUS+' pts') : 'Finish for +'+PROFILE_BONUS+' pts';
+    return '<div class="complete-top"><span>Profile '+c.pct+'% complete</span><span>'+right+'</span></div>'+
+      '<div class="complete-bar"><b style="width:'+c.pct+'%"></b></div>'+
+      '<div class="complete-sub">'+(c.missing.length ? 'Add your '+listText(c.missing)+'.' : 'All set — your details fill in at checkout automatically.')+'</div>';
+  }
+  function pointsCardHtml(asButton){
+    var t=tierInfo(), bal=pointsBalance(), linked=linkedApps();
+    var apps=['Guxo Flights'].concat(SIBLING_APPS.filter(function(x){ return linked[x.id]; }).map(function(x){ return x.name; }));
+    var inner='<div class="pc-top"><div><div class="pc-label">Guxo Points balance</div><div class="pc-bal">'+fmtPts(bal)+'</div></div><span class="pc-tier">'+t.tier+'</span></div>'+
+      '<div class="pc-bar" aria-hidden="true"><b style="width:'+t.pct+'%"></b></div>'+
+      '<div class="pc-sub">'+(t.next ? fmtPts(t.toNext)+' more to '+t.next.name : 'Top tier reached')+' · worth '+fmtPrice(bal/10)+' at checkout</div>'+
+      '<div class="pc-apps">'+apps.map(function(n){ return '<span>'+n+'</span>'; }).join('')+'</div>';
+    return asButton
+      ? '<div class="points-card" role="button" tabindex="0" data-go="points" aria-label="Guxo Points: '+fmtPts(bal)+' points, '+t.tier+' tier">'+inner+'</div>'
+      : '<div class="points-card static">'+inner+'</div>';
+  }
+
+  var toastTimer=null;
+  function showToast(msg){
+    var t=$('#toast');
+    t.textContent=msg; t.hidden=true; void t.offsetWidth; t.hidden=false;
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){ t.hidden=true; }, 2600);
+  }
+  var confirmAction=null;
+  function openConfirm(o){
+    $('#confirmTitle').textContent=o.title;
+    $('#confirmBody').textContent=o.body;
+    var ok=$('#confirmOk');
+    ok.textContent=o.ok;
+    ok.className='btn btn-block '+(o.danger?'btn-danger':'btn-primary');
+    confirmAction=o.onOk;
+    $('#confirmModal').hidden=false;
+    ok.focus();
+  }
+  function closeConfirm(){ confirmAction=null; $('#confirmModal').hidden=true; }
+  $('#confirmCancel').addEventListener('click', closeConfirm);
+  $('#confirmModal').addEventListener('click', function(e){ if(e.target===this) closeConfirm(); });
+  $('#confirmOk').addEventListener('click', function(){ var fn=confirmAction; closeConfirm(); if(fn) fn(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !$('#confirmModal').hidden) closeConfirm(); });
+
+  /* saved cards: only brand, last 4, expiry and name are ever stored */
+  var BRAND_LABEL={visa:'Visa', mastercard:'Mastercard', debit:'Card'};
+  function cardBrand(num){
+    var d=String(num||'').replace(/\D/g,'');
+    if(/^4/.test(d)) return 'visa';
+    if(/^(5[1-5]|2[2-7])/.test(d)) return 'mastercard';
+    return 'debit';
+  }
+  function luhnOk(d){
+    var sum=0, alt=false;
+    for(var i=d.length-1;i>=0;i--){ var n=+d.charAt(i); if(alt){ n*=2; if(n>9) n-=9; } sum+=n; alt=!alt; }
+    return sum%10===0;
+  }
+  function expiryError(v){
+    if(!/^\d{2}\/\d{2}$/.test(v)) return 'Enter the expiry as MM/YY.';
+    var m=+v.slice(0,2), y=2000+(+v.slice(3));
+    if(m<1 || m>12) return 'Enter an expiry month between 01 and 12.';
+    var now=new Date();
+    if(y<now.getFullYear() || (y===now.getFullYear() && m<now.getMonth()+1)) return 'This card has expired.';
+    return null;
+  }
+  function addSavedCard(o){
+    var a=state.currentUser;
+    if(!a) return null;
+    a.cards=savedCards().slice();
+    var card=a.cards.filter(function(c){ return c.brand===o.brand && c.last4===o.last4 && c.exp===o.exp; })[0];
+    if(!card){
+      card={id:'CD-'+uid(), brand:o.brand, last4:o.last4, exp:o.exp, name:o.name, isDefault:false};
+      a.cards.push(card);
+    }
+    if(o.makeDefault || a.cards.length===1) a.cards.forEach(function(c){ c.isDefault = c===card; });
+    saveAccount(a);
+    return card;
+  }
+  function setDefaultCard(id){
+    var a=state.currentUser; if(!a) return;
+    savedCards().forEach(function(c){ c.isDefault = c.id===id; });
+    saveAccount(a);
+  }
+  function removeCard(id){
+    var a=state.currentUser; if(!a) return;
+    var wasDefault=savedCards().some(function(c){ return c.id===id && c.isDefault; });
+    a.cards=savedCards().filter(function(c){ return c.id!==id; });
+    if(wasDefault && a.cards.length) a.cards[0].isDefault=true;
+    saveAccount(a);
+  }
+  function cardLabel(c){ return BRAND_LABEL[c.brand]+' •••• '+c.last4; }
+
   function applyHeroGreeting(){
     var el=$('#heroGreetingName');
     var isGuest=!state.currentUser;
@@ -1056,68 +1403,77 @@
   // Date of birth: a fixed mm/dd/yyyy mask filled strictly left to right.
   // Digits always land in the next empty slot and Backspace removes the
   // last one, so the month, day, and year slots are filled in order.
+  // Used on sign-up and on the Personal details screen.
   var DOB_MASK='mm/dd/yyyy';
-  var dobDigits='';
-  var suDobInp=$('#suDob');
   function dobSlotPos(n){ return n<2 ? n : n<4 ? n+1 : n+2; }
-  function renderDob(){
-    if(!suDobInp) return;
-    var focused=document.activeElement===suDobInp;
-    if(!dobDigits && !focused){ suDobInp.value=''; return; }
-    var out='', d=0;
-    for(var i=0;i<DOB_MASK.length;i++){
-      var ch=DOB_MASK.charAt(i);
-      out += (ch==='/') ? '/' : (d<dobDigits.length ? dobDigits.charAt(d++) : ch);
-    }
-    suDobInp.value=out;
-    if(focused){
-      var pos=dobDigits.length>=8 ? DOB_MASK.length : dobSlotPos(dobDigits.length);
-      suDobInp.setSelectionRange(pos,pos);
-    }
-  }
-  function addDobDigits(str){
-    var digits=String(str||'').replace(/\D/g,'');
-    dobDigits=(dobDigits+digits).slice(0,8);
-    renderDob();
-  }
-  function parseDob(){
-    if(dobDigits.length<8) return {error:'Enter your full date of birth as mm/dd/yyyy.'};
-    var m=+dobDigits.slice(0,2), d=+dobDigits.slice(2,4), y=+dobDigits.slice(4,8);
-    if(m<1 || m>12) return {error:'Enter a month between 01 and 12.'};
-    var daysInMonth=new Date(y, m, 0).getDate();
-    if(d<1 || d>daysInMonth) return {error:"That day doesn't exist in the month you entered."};
-    if(y<1900) return {error:'Enter a year from 1900 onward.'};
-    var iso=dobDigits.slice(4,8)+'-'+dobDigits.slice(0,2)+'-'+dobDigits.slice(2,4);
-    if(iso>todayDateStr()) return {error:"Date of birth can't be in the future."};
-    return {value:iso};
-  }
-  if(suDobInp){
-    suDobInp.addEventListener('beforeinput', function(e){
-      e.preventDefault();
-      if(e.inputType==='deleteContentBackward' || e.inputType==='deleteWordBackward'){
-        dobDigits=dobDigits.slice(0,-1); renderDob();
-      } else if(e.inputType==='deleteContentForward'){
-        renderDob();
-      } else if(e.data){
-        addDobDigits(e.data);
-      } else if(e.dataTransfer){
-        addDobDigits(e.dataTransfer.getData('text'));
+  function makeDobMask(inp){
+    var digits='';
+    function render(){
+      if(!inp) return;
+      var focused=document.activeElement===inp;
+      if(!digits && !focused){ inp.value=''; return; }
+      var out='', d=0;
+      for(var i=0;i<DOB_MASK.length;i++){
+        var ch=DOB_MASK.charAt(i);
+        out += (ch==='/') ? '/' : (d<digits.length ? digits.charAt(d++) : ch);
       }
-    });
-    // Fallback for browsers that let an edit through without beforeinput.
-    suDobInp.addEventListener('input', function(){
-      var digits=suDobInp.value.replace(/\D/g,'');
-      if(digits!==dobDigits){ dobDigits=''; addDobDigits(digits); }
-    });
-    suDobInp.addEventListener('paste', function(e){
-      e.preventDefault();
-      addDobDigits((e.clipboardData||window.clipboardData).getData('text'));
-    });
-    ['focus','click','keyup','select'].forEach(function(evt){
-      suDobInp.addEventListener(evt, function(){ setTimeout(renderDob,0); });
-    });
-    suDobInp.addEventListener('blur', renderDob);
+      inp.value=out;
+      if(focused){
+        var pos=digits.length>=8 ? DOB_MASK.length : dobSlotPos(digits.length);
+        inp.setSelectionRange(pos,pos);
+      }
+    }
+    function add(str){
+      digits=(digits+String(str||'').replace(/\D/g,'')).slice(0,8);
+      render();
+    }
+    function parse(){
+      if(digits.length<8) return {error:'Enter your full date of birth as mm/dd/yyyy.'};
+      var m=+digits.slice(0,2), d=+digits.slice(2,4), y=+digits.slice(4,8);
+      if(m<1 || m>12) return {error:'Enter a month between 01 and 12.'};
+      var daysInMonth=new Date(y, m, 0).getDate();
+      if(d<1 || d>daysInMonth) return {error:"That day doesn't exist in the month you entered."};
+      if(y<1900) return {error:'Enter a year from 1900 onward.'};
+      var iso=digits.slice(4,8)+'-'+digits.slice(0,2)+'-'+digits.slice(2,4);
+      if(iso>todayDateStr()) return {error:"Date of birth can't be in the future."};
+      return {value:iso};
+    }
+    if(inp){
+      inp.addEventListener('beforeinput', function(e){
+        e.preventDefault();
+        if(e.inputType==='deleteContentBackward' || e.inputType==='deleteWordBackward'){
+          digits=digits.slice(0,-1); render();
+        } else if(e.inputType==='deleteContentForward'){
+          render();
+        } else if(e.data){
+          add(e.data);
+        } else if(e.dataTransfer){
+          add(e.dataTransfer.getData('text'));
+        }
+        inp.dispatchEvent(new Event('dobchange'));
+      });
+      // Fallback for browsers that let an edit through without beforeinput.
+      inp.addEventListener('input', function(){
+        var typed=inp.value.replace(/\D/g,'');
+        if(typed!==digits){ digits=''; add(typed); }
+      });
+      inp.addEventListener('paste', function(e){
+        e.preventDefault();
+        add((e.clipboardData||window.clipboardData).getData('text'));
+      });
+      ['focus','click','keyup','select'].forEach(function(evt){
+        inp.addEventListener(evt, function(){ setTimeout(render,0); });
+      });
+      inp.addEventListener('blur', render);
+    }
+    return {
+      parse:parse,
+      isEmpty:function(){ return !digits; },
+      setIso:function(iso){ digits = iso ? iso.slice(5,7)+iso.slice(8,10)+iso.slice(0,4) : ''; render(); }
+    };
   }
+  var suDob=makeDobMask($('#suDob'));
+  var epDob=makeDobMask($('#epDob'));
 
   function passwordStrengthLevel(pw){
     if(!pw) return null;
@@ -1150,7 +1506,7 @@
   $('#signupForm').addEventListener('submit', function(e){
     e.preventDefault();
     var firstName=$('#suFirstName').value.trim(), lastName=$('#suLastName').value.trim();
-    var dobResult=parseDob();
+    var dobResult=suDob.parse();
     var street=$('#suStreet').value.trim(), city=$('#suCity').value.trim();
     var email=$('#suEmail').value.trim();
     var pw=$('#suPassword').value, pw2=$('#suConfirmPassword').value;
@@ -1357,6 +1713,9 @@
     if(cur.screen==='notifications') renderNotifications();
     updateBellDots();
     if(cur.screen==='profile') renderProfile();
+    if(cur.screen==='cards') renderCards();
+    if(cur.screen==='connected') renderConnected();
+    if(cur.screen==='points') renderPoints();
   }
   function updateTabIndicator(tabId){
     var btn=$('.tab-btn[data-tab="'+tabId+'"]');
@@ -1393,6 +1752,11 @@
   $('#backFromProfile').addEventListener('click', goBack);
   $('#backFromTripDetail').addEventListener('click', goBack);
   $('#backFromBoarding').addEventListener('click', goBack);
+  $('#backFromEditProfile').addEventListener('click', goBack);
+  $('#backFromCards').addEventListener('click', goBack);
+  $('#backFromAddCard').addEventListener('click', goBack);
+  $('#backFromConnected').addEventListener('click', goBack);
+  $('#backFromPoints').addEventListener('click', goBack);
 
   /* ---------- search -> results ---------- */
   function generateFlights(origin, destination, dateStr){
@@ -1588,7 +1952,7 @@
       var card=document.createElement('div'); card.className='fare-card';
       card.innerHTML =
         '<div class="fare-card-main"><h4>'+t.name+'</h4><div class="desc">'+t.feats.join(' · ')+'</div></div>'+
-        '<div class="fare-card-right"><div class="price-block"><div class="p">'+fmtPrice(perPerson)+'</div><span class="miles">+'+milesFor(perPerson)+' miles</span></div><span class="fare-radio"></span></div>';
+        '<div class="fare-card-right"><div class="price-block"><div class="p">'+fmtPrice(perPerson)+'</div><span class="miles">+'+fmtPts(pointsFor(perPerson))+' pts</span></div><span class="fare-radio"></span></div>';
       card.addEventListener('click', function(){
         state.fareTier=t.id;
         $all('.fare-card').forEach(function(c){ c.classList.remove('selected'); });
@@ -1678,16 +2042,40 @@
     if(!state.paymentType){ box.hidden=true; box.innerHTML=''; checkPaymentContinue(); return; }
     box.hidden=false;
     if(state.paymentType==='card'){
-      box.innerHTML =
-        '<div class="field"><label>Name on card</label><input type="text" id="payCardName" placeholder="Full name"></div>'+
-        '<div class="field"><label>Card number</label><input type="text" id="payCardNumber" placeholder="0000 0000 0000 0000" maxlength="19"></div>'+
-        '<div class="row2">'+
-          '<div class="field"><label>Expiry</label><input type="text" id="payCardExpiry" placeholder="MM/YY" maxlength="5"></div>'+
-          '<div class="field"><label>CVC</label><input type="text" id="payCardCvc" placeholder="CVC" maxlength="4"></div>'+
-        '</div>';
-      $('#payCardNumber').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,16); this.value=v.replace(/(.{4})/g,'$1 ').trim(); checkPaymentContinue(); });
-      $('#payCardExpiry').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); this.value=v; checkPaymentContinue(); });
-      $all('#payCardName, #payCardCvc', box).forEach(function(inp){ inp.addEventListener('input', checkPaymentContinue); });
+      // Saved cards come first (default selected); "Use a new card" shows the full form.
+      var cards=savedCards();
+      if(!state._payCardId){
+        var def=cards.filter(function(c){ return c.isDefault; })[0] || cards[0];
+        state._payCardId = def ? def.id : 'new';
+      }
+      var picked=cards.filter(function(c){ return c.id===state._payCardId; })[0];
+      var savedHtml = cards.length
+        ? '<div class="pay-saved" role="radiogroup" aria-label="Saved cards">'+cards.map(function(c){
+            var on=c.id===state._payCardId;
+            return '<label class="pay-saved-opt'+(on?' selected':'')+'"><input type="radio" name="payCardPick" value="'+c.id+'"'+(on?' checked':'')+'>'+pmBadgeHtml(c.brand)+
+              '<span class="grow">'+cardLabel(c)+' <small>· exp '+c.exp+'</small></span>'+(c.isDefault?'<span class="pill-default">Default</span>':'')+'</label>';
+          }).join('')+
+          '<label class="pay-saved-opt'+(!picked?' selected':'')+'"><input type="radio" name="payCardPick" value="new"'+(!picked?' checked':'')+'><span class="grow">Use a new card</span></label></div>'
+        : '';
+      var fieldsHtml = picked
+        ? '<div class="field"><label>CVC for '+cardLabel(picked)+'</label><input type="password" id="payCardCvc" inputmode="numeric" placeholder="CVC" maxlength="4"></div>'
+        : '<div class="field"><label>Name on card</label><input type="text" id="payCardName" placeholder="Full name"></div>'+
+          '<div class="field"><label>Card number</label><input type="text" id="payCardNumber" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19"></div>'+
+          '<div class="row2">'+
+            '<div class="field"><label>Expiry</label><input type="text" id="payCardExpiry" inputmode="numeric" placeholder="MM/YY" maxlength="5"></div>'+
+            '<div class="field"><label>CVC</label><input type="password" id="payCardCvc" inputmode="numeric" placeholder="CVC" maxlength="4"></div>'+
+          '</div>'+
+          (state.currentUser ? '<label class="check-row"><input type="checkbox" id="paySaveCard" checked> Save this card for next time</label>' : '');
+      box.innerHTML = savedHtml + fieldsHtml;
+      $all('input[name="payCardPick"]', box).forEach(function(r){
+        r.addEventListener('change', function(){ state._payCardId=r.value; renderPayForm(); });
+      });
+      if(!picked){
+        $('#payCardNumber').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,16); this.value=v.replace(/(.{4})/g,'$1 ').trim(); checkPaymentContinue(); });
+        $('#payCardExpiry').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); this.value=v; checkPaymentContinue(); });
+        $('#payCardName').addEventListener('input', checkPaymentContinue);
+      }
+      $('#payCardCvc').addEventListener('input', function(){ this.value=this.value.replace(/\D/g,'').slice(0,4); checkPaymentContinue(); });
     } else if(state.paymentType==='phone'){
       box.innerHTML =
         '<div class="field"><label>Full name</label><input type="text" id="payPhoneName" placeholder="Full name"></div>'+
@@ -1709,7 +2097,8 @@
     var ok=false;
     if(state.paymentType==='card'){
       var name=$('#payCardName'), num=$('#payCardNumber'), exp=$('#payCardExpiry'), cvc=$('#payCardCvc');
-      ok = !!(name && name.value.trim().length>1 && num && num.value.replace(/\s/g,'').length>=12 && exp && exp.value.length===5 && cvc && cvc.value.length>=3);
+      if(state._payCardId && state._payCardId!=='new') ok = !!(cvc && cvc.value.length>=3);
+      else ok = !!(name && name.value.trim().length>1 && num && num.value.replace(/\s/g,'').length>=12 && exp && exp.value.length===5 && cvc && cvc.value.length>=3);
     } else if(state.paymentType==='phone'){
       var pname=$('#payPhoneName'), pnum=$('#payPhoneNumber');
       ok = !!(pname && pname.value.trim().length>1 && pnum && pnum.value.replace(/\D/g,'').length>=9);
@@ -1752,17 +2141,41 @@
     var legPriceSum = state.outFlight.price + (isRound? state.returnFlight.price : 0);
     var base=(legPriceSum+fare.add*(isRound?2:1))*state.passengers;
     var tax=Math.round(base*0.10);
-    var total=base+tax;
-    state._total=total;
-    $('#priceBox').innerHTML =
-      '<div class="price-line"><span>Fare ('+fare.name+''+(isRound?', round trip':'')+') × '+state.passengers+'</span><span class="mono">'+fmtPrice(base)+'</span></div>'+
-      '<div class="price-line"><span>Taxes &amp; fees</span><span class="mono">'+fmtPrice(tax)+'</span></div>'+
-      '<div class="price-line total"><span>Total</span><span class="mono">'+fmtPrice(total)+'</span></div>';
+    state._base=base; state._tax=tax; state._usePoints=false;
+    state._fareLine='Fare ('+fare.name+''+(isRound?', round trip':'')+') × '+state.passengers;
+    renderPriceBox();
 
     state.paymentType=null;
+    state._payCardId=null;
     state._bankRef=null;
     $all('.pay-type-tile').forEach(function(t){ t.classList.remove('selected'); });
     renderPayForm();
+  }
+
+  // Price breakdown, with the option to spend Guxo Points (10 points = ETB 1).
+  function renderPriceBox(){
+    var gross=state._base+state._tax;
+    var bal=pointsBalance();
+    var canRedeem=!!state.currentUser && bal>=MIN_REDEEM;
+    var maxPts=Math.min(Math.floor(bal/10)*10, Math.floor(gross)*10);
+    var usePts=canRedeem && state._usePoints ? maxPts : 0;
+    var discount=usePts/10;
+    var total=gross-discount;
+    state._total=total; state._pointsUsed=usePts;
+    var earn=pointsFor(total);
+    $('#pointsRedeemBox').innerHTML = canRedeem
+      ? '<label class="points-redeem"><input type="checkbox" id="usePointsChk"'+(state._usePoints?' checked':'')+'>'+
+        '<span class="grow"><span class="t">Use Guxo Points</span><span class="d">'+fmtPts(maxPts)+' of your '+fmtPts(bal)+' points</span></span>'+
+        '<span class="v">−'+fmtPrice(maxPts/10)+'</span></label>'
+      : '';
+    var chk=$('#usePointsChk');
+    if(chk) chk.addEventListener('change', function(){ state._usePoints=chk.checked; renderPriceBox(); });
+    $('#priceBox').innerHTML =
+      '<div class="price-line"><span>'+state._fareLine+'</span><span class="mono">'+fmtPrice(state._base)+'</span></div>'+
+      '<div class="price-line"><span>Taxes &amp; fees</span><span class="mono">'+fmtPrice(state._tax)+'</span></div>'+
+      (usePts ? '<div class="price-line discount"><span>Guxo Points ('+fmtPts(usePts)+')</span><span class="mono">−'+fmtPrice(discount)+'</span></div>' : '')+
+      '<div class="price-line total"><span>Total</span><span class="mono">'+fmtPrice(total)+'</span></div>'+
+      '<div class="earn-note">'+(state.currentUser ? "You'll earn "+fmtPts(earn)+' Guxo Points' : 'Sign up to earn '+fmtPts(earn)+' Guxo Points on this trip')+'</div>';
   }
 
   $('#payBtn').addEventListener('click', function(){
@@ -1786,9 +2199,16 @@
 
     var payKind, payLabel, paySub;
     if(state.paymentType==='card'){
-      var cardNum=$('#payCardNumber').value.replace(/\s/g,'');
-      payKind = cardNum.charAt(0)==='4' ? 'visa' : cardNum.charAt(0)==='5' ? 'mastercard' : 'debit';
-      payLabel='Card'; paySub='•••• '+cardNum.slice(-4);
+      var pickedCard=savedCards().filter(function(c){ return c.id===state._payCardId; })[0];
+      payLabel='Card';
+      if(pickedCard){
+        payKind=pickedCard.brand; paySub='•••• '+pickedCard.last4;
+      } else {
+        var cardNum=$('#payCardNumber').value.replace(/\s/g,'');
+        payKind=cardBrand(cardNum); paySub='•••• '+cardNum.slice(-4);
+        var saveChk=$('#paySaveCard');
+        if(saveChk && saveChk.checked) addSavedCard({brand:payKind, last4:cardNum.slice(-4), exp:$('#payCardExpiry').value, name:$('#payCardName').value.trim()});
+      }
     } else if(state.paymentType==='phone'){
       payKind='telebirr'; payLabel='Mobile Banking'; paySub=$('#payPhoneNumber').value;
     } else if(state.paymentType==='bank'){
@@ -1803,6 +2223,11 @@
     };
     state.trips.unshift(trip);
 
+    var routeTxt=tripRouteText(trip);
+    if(state._pointsUsed) addPoints(-state._pointsUsed, 'Used on '+routeTxt+' · PNR '+pnr, 'redeem', 'redeem-'+trip.id);
+    trip.pointsUsed=state._pointsUsed||0;
+    trip.pointsEarned=state.currentUser ? addPoints(pointsFor(state._total), 'Booked '+routeTxt+' · PNR '+pnr, 'earn', 'earn-'+trip.id) : 0;
+
     var bp = legs.map(function(lg){
       return (lg.label?'<div class="bp-row" style="margin-top:8px;"><span><b>'+lg.label+'</b></span><span></span></div>':'')+
         '<div class="bp-row"><span>Route</span><span>'+lg.origin+' → '+lg.destination+'</span></div>'+
@@ -1813,7 +2238,8 @@
     bp += '<div class="bp-row" style="margin-top:8px;"><span>Fare</span><span>'+state._fareName+'</span></div>'+
       '<div class="bp-row"><span>Passenger'+(state._names.length>1?'s':'')+'</span><span>'+state._names.join(', ')+'</span></div>'+
       '<div class="bp-row"><span>Total paid</span><span>'+fmtPrice(state._total)+'</span></div>'+
-      '<div class="bp-row"><span>ShebaMiles earned</span><span>+'+milesFor(state._total)+'</span></div>';
+      (trip.pointsUsed ? '<div class="bp-row"><span>Guxo Points used</span><span>−'+fmtPts(trip.pointsUsed)+'</span></div>' : '')+
+      '<div class="bp-row"><span>Guxo Points earned</span><span>'+(trip.pointsEarned ? '+'+fmtPts(trip.pointsEarned) : 'Sign up to earn points')+'</span></div>';
     $('#bpBox').innerHTML=bp;
     $('#pnrCode').textContent=pnr;
 
@@ -1908,7 +2334,8 @@
       '<div class="bp-row"><span>Fare</span><span>'+t.fareName+'</span></div>'+
       '<div class="bp-row"><span>Passenger'+(t.names.length>1?'s':'')+'</span><span>'+t.names.join(', ')+'</span></div>'+
       '<div class="bp-row"><span>Total paid</span><span>'+fmtPrice(t.price)+'</span></div>'+
-      '<div class="bp-row"><span>ShebaMiles earned</span><span>'+(isCancelled?'—':'+'+milesFor(t.price))+'</span></div>';
+      (t.pointsUsed ? '<div class="bp-row"><span>Guxo Points used</span><span>'+(isCancelled?'Refunded':'−'+fmtPts(t.pointsUsed))+'</span></div>' : '')+
+      '<div class="bp-row"><span>Guxo Points earned</span><span>'+(!t.pointsEarned ? '—' : isCancelled ? 'Reversed' : '+'+fmtPts(t.pointsEarned))+'</span></div>';
     $('#tripDetailBox').innerHTML=bp;
     $('#tripDetailPnr').textContent=t.pnr;
 
@@ -1935,7 +2362,12 @@
   $('#cancelModal').addEventListener('click', function(e){ if(e.target===this) closeCancelModal(); });
   $('#cancelModalConfirm').addEventListener('click', function(){
     var t=state.trips.filter(function(x){return x.id===cancelTargetId;})[0];
-    if(t){ t.cancelled=true; t.cancelledAt=new Date(); }
+    if(t){
+      t.cancelled=true; t.cancelledAt=new Date();
+      // Points earned on the trip come back off; points spent on it are returned.
+      if(t.pointsEarned) addPoints(-t.pointsEarned, 'Reversed · cancelled PNR '+t.pnr, 'reverse', 'rev-'+t.id);
+      if(t.pointsUsed) addPoints(t.pointsUsed, 'Returned · cancelled PNR '+t.pnr, 'refund', 'ref-'+t.id);
+    }
     closeCancelModal();
     renderTrips();
   });
@@ -2125,42 +2557,280 @@
   }
 
   /* ---------- profile ---------- */
+  function profileRowHtml(o){
+    return '<div class="profile-row'+(o.cls?' '+o.cls:'')+'" role="button" tabindex="0" data-go="'+o.go+'">'+
+      '<span class="row-l"><span class="row-ic">'+o.icon+'</span><span>'+o.label+'</span></span>'+
+      '<span class="row-r">'+(o.meta?'<span class="row-meta">'+o.meta+'</span>':'')+'<span class="chev">›</span></span></div>';
+  }
+  var SOON_ROWS=[
+    {go:'soon:Saved passengers', icon:ICONS.users, label:'Saved passengers'},
+    {go:'soon:Notification preferences', icon:ICONS.bellIc, label:'Notification preferences'},
+    {go:'soon:Help & support', icon:ICONS.help, label:'Help &amp; support'}
+  ];
   function renderProfile(){
     var box=$('#profileBox');
-    var isGuest = !state.currentUser;
-    var u = state.currentUser || {name:'Guest', email:'Browsing without an account'};
-    var totalMiles=state.trips.filter(function(t){ return !t.cancelled; }).reduce(function(sum,t){ return sum + Number(milesFor(t.price).replace(/,/g,'')); }, 0);
+    var a=state.currentUser;
+    if(!a){
+      box.innerHTML =
+        '<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">Guest</div><div class="profile-sub">Browsing without an account</div></div>'+
+        '<div class="guest-cta"><h3>Earn Guxo Points on every trip</h3>'+
+          '<p>Create a free account to save cards, link Guxo and Gexi, and spend points at checkout.</p>'+
+          '<button type="button" class="btn btn-primary" data-go="signup">Sign up or log in</button></div>'+
+        SOON_ROWS.map(profileRowHtml).join('')+
+        profileRowHtml({go:'signup', icon:ICONS.userIc, label:'Sign up or log in', cls:'accent'});
+      return;
+    }
+    var c=profileCompletion(a), cards=savedCards(), linked=linkedApps(), bal=pointsBalance();
+    var linkedCount=SIBLING_APPS.filter(function(x){ return linked[x.id]; }).length;
     box.innerHTML =
-      '<div class="profile-head">'+
-        '<div class="profile-avatar">'+initialsFor(u.name)+'</div>'+
-        '<div class="profile-name">'+u.name+'</div>'+
-        '<div class="profile-sub">'+u.email+'</div>'+
-      '</div>'+
-      '<div class="miles-card"><div><div class="m">'+totalMiles.toLocaleString()+'</div><span>ShebaMiles balance</span></div>'+ICONS.plane+'</div>'+
-      '<div class="profile-row"><span>Saved passengers</span><span class="chev">›</span></div>'+
-      '<div class="profile-row"><span>Payment methods</span><span class="chev">›</span></div>'+
-      '<div class="profile-row"><span>Notification preferences</span><span class="chev">›</span></div>'+
-      '<div class="profile-row"><span>Help &amp; support</span><span class="chev">›</span></div>'+
-      (isGuest
-        ? '<div class="profile-row" id="guestSignupRow" style="color:var(--primary);"><span>Sign up or log in</span><span class="chev">›</span></div>'
-        : '<div class="profile-row" id="logoutRow" style="color:var(--bad);"><span>Log out</span><span class="chev">›</span></div>');
-    var guestSignupRow=$('#guestSignupRow');
-    if(guestSignupRow){
-      guestSignupRow.addEventListener('click', function(){
-        navigateWithLoading(function(){ stack=[]; cur={screen: loadAccount() ? 'login' : 'signup', tab:null}; render(); });
+      '<div class="profile-head"><div class="profile-avatar">'+esc(initialsFor(a.name))+'</div>'+
+        '<div class="profile-name">'+esc(a.name)+'</div><div class="profile-sub">'+esc(a.email)+'</div>'+
+        '<button type="button" class="btn btn-tint btn-sm profile-edit-btn" data-go="edit-profile">Edit profile</button></div>'+
+      (c.pct<100 ? '<button type="button" class="complete-card" data-go="edit-profile">'+completeCardHtml(a)+'</button>' : '')+
+      pointsCardHtml(true)+
+      profileRowHtml({go:'edit-profile', icon:ICONS.userIc, label:'Personal details', meta:c.pct<100 ? c.pct+'%' : ''})+
+      profileRowHtml({go:'cards', icon:ICONS.card, label:'Payment methods', meta:cards.length ? cards.length+' card'+(cards.length>1?'s':'') : 'Add a card'})+
+      profileRowHtml({go:'connected', icon:ICONS.link, label:'Connected apps', meta:linkedCount ? linkedCount+' linked' : 'Not linked'})+
+      profileRowHtml({go:'points', icon:ICONS.star, label:'Guxo Points', meta:fmtPts(bal)+' pts'})+
+      SOON_ROWS.map(profileRowHtml).join('')+
+      profileRowHtml({go:'logout', icon:ICONS.logout, label:'Log out', cls:'danger'});
+  }
+
+  // One handler for every data-go control on the account screens.
+  function handleGo(go){
+    if(go==='edit-profile') return openEditProfile();
+    if(go==='cards' || go==='connected' || go==='points') return goTo(go);
+    if(go==='add-card') return openAddCard();
+    if(go==='book') return showRoot('book');
+    if(go==='signup'){
+      return navigateWithLoading(function(){ stack=[]; cur={screen: loadAccount() ? 'login' : 'signup', tab:null}; render(); });
+    }
+    if(go==='logout'){
+      state.currentUser=null;
+      applyHeroGreeting();
+      return navigateWithLoading(function(){
+        stack=[]; cur={screen:'login', tab:null}; render();
+        var acc=loadAccount(); var liEmail=$('#liEmail');
+        if(liEmail) liEmail.value = acc ? acc.email : '';
       });
     }
-    var logoutRow=$('#logoutRow');
-    if(logoutRow){
-      logoutRow.addEventListener('click', function(){
-        state.currentUser=null;
-        navigateWithLoading(function(){
-          stack=[]; cur={screen:'login', tab:null}; render();
-          var acc=loadAccount(); var liEmail=$('#liEmail');
-          if(liEmail) liEmail.value = acc ? acc.email : '';
-        });
-      });
+    if(go.indexOf('soon:')===0) return showToast(go.slice(5)+' is coming soon');
+  }
+  ['#profileBox', '#pointsBox'].forEach(function(sel){
+    var el=$(sel);
+    el.addEventListener('click', function(e){
+      var t=e.target.closest('[data-go]');
+      if(t && el.contains(t)) handleGo(t.getAttribute('data-go'));
+    });
+    el.addEventListener('keydown', function(e){
+      var t=e.target.closest('[data-go][role="button"]');
+      if(t && (e.key==='Enter' || e.key===' ')){ e.preventDefault(); handleGo(t.getAttribute('data-go')); }
+    });
+  });
+
+  /* ---------- personal details ---------- */
+  function editDraft(){
+    var a=state.currentUser||{};
+    var dob=epDob.isEmpty() ? '' : (epDob.parse().value || 'x');
+    return {firstName:$('#epFirst').value, lastName:$('#epLast').value, email:$('#epEmail').value, phone:$('#epPhone').value,
+      dob:dob, street:$('#epStreet').value, city:$('#epCity').value, points:a.points};
+  }
+  function updateEditCompleteCard(){ $('#editCompleteCard').innerHTML=completeCardHtml(editDraft()); }
+  function openEditProfile(){
+    var a=state.currentUser;
+    if(!a) return handleGo('signup');
+    $('#epFirst').value=a.firstName||''; $('#epLast').value=a.lastName||'';
+    $('#epEmail').value=a.email||''; $('#epPhone').value=a.phone||'';
+    epDob.setIso(a.dob||'');
+    $('#epStreet').value=a.street||''; $('#epCity').value=a.city||'';
+    $('#editProfileError').hidden=true;
+    updateEditCompleteCard();
+    goTo('edit-profile');
+  }
+  $all('#editProfileForm input').forEach(function(inp){ inp.addEventListener('input', updateEditCompleteCard); });
+  $('#epDob').addEventListener('dobchange', function(){ setTimeout(updateEditCompleteCard,0); });
+  $('#editProfileForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var a=state.currentUser; if(!a) return;
+    var err=$('#editProfileError');
+    function fail(msg){ err.textContent=msg; err.hidden=false; }
+    var first=$('#epFirst').value.trim(), last=$('#epLast').value.trim(), email=$('#epEmail').value.trim();
+    var phone=$('#epPhone').value.trim(), street=$('#epStreet').value.trim(), city=$('#epCity').value.trim();
+    if(!first || !last) return fail('Enter your first and last name.');
+    if(email.indexOf('@')<1) return fail('Enter a valid email address.');
+    var phoneDigits=phone.replace(/\D/g,'');
+    if(phone && (phoneDigits.length<9 || phoneDigits.length>12 || /[^\d\s+]/.test(phone))) return fail('Enter a valid phone number, e.g. 0911 234 567.');
+    var dob='';
+    if(!epDob.isEmpty()){ var r=epDob.parse(); if(r.error) return fail(r.error); dob=r.value; }
+    err.hidden=true;
+    a.firstName=first; a.lastName=last; a.name=first+' '+last; a.email=email;
+    a.phone=phone; a.dob=dob; a.street=street; a.city=city;
+    saveAccount(a);
+    saveTraveler(a.name, email);
+    applyHeroGreeting();
+    var bonus = profileCompletion(a).pct===100 ? addPoints(PROFILE_BONUS, 'Completed your profile', 'bonus', 'profile-bonus') : 0;
+    showToast(bonus ? 'Profile saved · +'+PROFILE_BONUS+' points' : 'Profile saved');
+    goBack();
+  });
+
+  /* ---------- payment methods ---------- */
+  function renderCards(){
+    var box=$('#cardsBox');
+    if(!state.currentUser){ box.innerHTML='<div class="empty-state"><div class="em">'+ICONS.card+'</div><p>Sign up to save cards.</p></div>'; return; }
+    var cards=savedCards();
+    box.innerHTML =
+      (cards.length
+        ? '<div class="sec-title" style="margin-top:4px">Saved cards</div><div class="card-list">'+cards.map(function(c){
+            return '<div class="saved-card'+(c.isDefault?' default':'')+'">'+pmBadgeHtml(c.brand)+
+              '<div class="sc-mid"><div class="t">'+cardLabel(c)+'</div><div class="d">Expires '+c.exp+' · '+esc(c.name)+'</div></div>'+
+              '<div class="sc-actions">'+(c.isDefault ? '<span class="pill-default">Default</span>' : '<button type="button" class="link-btn" data-default="'+c.id+'">Set default</button>')+
+              '<button type="button" class="icon-x" data-remove="'+c.id+'" aria-label="Remove '+cardLabel(c)+'">'+ICONS.close+'</button></div></div>';
+          }).join('')+'</div>'
+        : '<div class="empty-state" style="padding-block:40px 10px"><div class="em">'+ICONS.card+'</div><p>No saved cards yet. Add one to check out faster.</p></div>')+
+      '<button type="button" class="btn btn-tint btn-block" data-go="add-card" style="margin-top:16px">'+ICONS.plus+'<span>Add a new card</span></button>'+
+      '<div class="sec-title">Other ways to pay</div>'+
+      '<p class="info-note" style="margin-top:0">Telebirr / mobile banking and bank-counter payments are picked at checkout — nothing to set up here.</p>'+
+      '<p class="info-note">Only each card\'s brand, last 4 digits and expiry are kept, on this device.</p>';
+  }
+  $('#cardsBox').addEventListener('click', function(e){
+    var def=e.target.closest('[data-default]'), rm=e.target.closest('[data-remove]'), go=e.target.closest('[data-go]');
+    if(def){ setDefaultCard(def.getAttribute('data-default')); renderCards(); showToast('Default card updated'); return; }
+    if(rm){
+      var id=rm.getAttribute('data-remove');
+      var c=savedCards().filter(function(x){ return x.id===id; })[0];
+      if(!c) return;
+      openConfirm({title:'Remove this card?', body:cardLabel(c)+' will be removed from Guxo Flights on this device.', ok:'Remove card', danger:true,
+        onOk:function(){ removeCard(id); renderCards(); showToast('Card removed'); }});
+      return;
     }
+    if(go) handleGo(go.getAttribute('data-go'));
+  });
+
+  function updateCardPreview(){
+    var digits=$('#acNumber').value.replace(/\D/g,'');
+    var shown=(digits+'••••••••••••••••').slice(0,16).replace(/(.{4})/g,'$1 ').trim();
+    $('#cpNum').textContent=shown;
+    $('#cpBrand').textContent=digits ? BRAND_LABEL[cardBrand(digits)].toUpperCase() : 'CARD';
+    $('#cpName').textContent=$('#acName').value.trim() || 'Your name';
+    $('#cpExp').textContent=$('#acExpiry').value || 'MM/YY';
+  }
+  function openAddCard(){
+    ['#acName','#acNumber','#acExpiry','#acCvc'].forEach(function(id){ $(id).value=''; });
+    var a=state.currentUser;
+    if(a) $('#acName').value=a.name||'';
+    $('#acDefault').checked=!savedCards().length;
+    $('#addCardError').hidden=true;
+    updateCardPreview();
+    goTo('add-card');
+  }
+  $('#acNumber').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,16); this.value=v.replace(/(.{4})/g,'$1 ').trim(); updateCardPreview(); });
+  $('#acExpiry').addEventListener('input', function(){ var v=this.value.replace(/\D/g,'').slice(0,4); if(v.length>=3) v=v.slice(0,2)+'/'+v.slice(2); this.value=v; updateCardPreview(); });
+  $('#acCvc').addEventListener('input', function(){ this.value=this.value.replace(/\D/g,'').slice(0,4); });
+  $('#acName').addEventListener('input', updateCardPreview);
+  $('#addCardForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var err=$('#addCardError');
+    function fail(msg){ err.textContent=msg; err.hidden=false; }
+    var name=$('#acName').value.trim(), digits=$('#acNumber').value.replace(/\D/g,''), exp=$('#acExpiry').value, cvc=$('#acCvc').value;
+    if(name.length<2) return fail('Enter the name shown on the card.');
+    if(digits.length<13 || !luhnOk(digits)) return fail("That card number doesn't look right — check it and try again.");
+    var expErr=expiryError(exp); if(expErr) return fail(expErr);
+    if(cvc.length<3) return fail('Enter the 3 or 4 digit CVC.');
+    err.hidden=true;
+    var card=addSavedCard({brand:cardBrand(digits), last4:digits.slice(-4), exp:exp, name:name, makeDefault:$('#acDefault').checked});
+    $('#acCvc').value=''; $('#acNumber').value='';
+    showToast('Card added · '+cardLabel(card));
+    goBack();
+  });
+
+  /* ---------- connected apps ---------- */
+  function renderConnected(){
+    var box=$('#connectedBox');
+    var a=state.currentUser;
+    if(!a){ box.innerHTML='<div class="empty-state"><div class="em">'+ICONS.link+'</div><p>Sign up to link your Guxo apps.</p></div>'; return; }
+    var linked=linkedApps();
+    box.innerHTML =
+      '<p class="fam-note" style="margin-top:0">Link your Guxo apps to use one account and one Guxo Points balance everywhere. Points you earn in any linked app add up here.</p>'+
+      SIBLING_APPS.map(function(app){
+        var on=!!linked[app.id];
+        var status = !app.live ? '<span class="at-status soon">Coming soon</span>' : on ? '<span class="at-status linked">Linked</span>' : '<span class="at-status off">Not linked</span>';
+        var body = !app.live
+          ? app.name+' is still being built. You\'ll be able to link it here when it launches.'
+          : on ? 'Linked '+fmtDate(new Date(linked[app.id].at))+' as '+esc(a.email)+'. Trips on '+app.name+' earn Guxo Points in this same balance.'
+          : 'Link '+app.name+' to share your account and points. Get +'+LINK_BONUS+' points the first time you link.';
+        var actions = !app.live ? ''
+          : on ? '<div class="at-actions">'+(app.url ? '<a class="btn btn-ghost btn-sm" href="'+app.url+'" target="_blank" rel="noopener">Open '+app.name+'</a>' : '')+
+                 '<button type="button" class="btn btn-danger btn-sm" data-unlink="'+app.id+'">Unlink</button></div>'
+          : '<div class="at-actions"><button type="button" class="btn btn-primary btn-sm" data-link="'+app.id+'">'+ICONS.link+'<span>Link '+app.name+'</span></button></div>';
+        return '<div class="app-tile'+(app.live?'':' soon')+'"><div class="at-top">'+
+          '<span class="at-logo" style="background:linear-gradient(135deg,'+app.c1+','+app.c2+')">'+app.mark+'</span>'+
+          '<div class="at-mid"><div class="t">'+app.name+'</div><div class="d">'+app.what+'</div></div>'+status+'</div>'+
+          '<p class="at-body">'+body+'</p>'+actions+'</div>';
+      }).join('')+
+      '<p class="info-note">In this prototype, linking is simulated on this device — nothing is sent anywhere.</p>';
+  }
+  $('#connectedBox').addEventListener('click', function(e){
+    var lk=e.target.closest('[data-link]'), ul=e.target.closest('[data-unlink]');
+    var a=state.currentUser; if(!a) return;
+    if(lk){
+      var app=SIBLING_APPS.filter(function(x){ return x.id===lk.getAttribute('data-link'); })[0];
+      openConfirm({title:'Link '+app.name+'?', body:'Guxo Flights will share your name, email and Guxo Points balance with '+app.name+' ('+app.what.toLowerCase()+'). You can unlink any time.', ok:'Link '+app.name,
+        onOk:function(){
+          a.linked=linkedApps(); a.linked[app.id]={at:new Date().toISOString()};
+          saveAccount(a);
+          var bonus=addPoints(LINK_BONUS, 'Linked '+app.name, 'bonus', 'link-'+app.id);
+          renderConnected();
+          showToast(app.name+' linked'+(bonus ? ' · +'+LINK_BONUS+' points' : ''));
+        }});
+    }
+    if(ul){
+      var app2=SIBLING_APPS.filter(function(x){ return x.id===ul.getAttribute('data-unlink'); })[0];
+      openConfirm({title:'Unlink '+app2.name+'?', body:app2.name+' will stop sharing your account and points. Points you already have stay in your balance.', ok:'Unlink', danger:true,
+        onOk:function(){
+          a.linked=linkedApps(); delete a.linked[app2.id];
+          saveAccount(a);
+          renderConnected();
+          showToast(app2.name+' unlinked');
+        }});
+    }
+  });
+
+  /* ---------- Guxo Points screen ---------- */
+  function earnRowHtml(o){
+    return '<div class="earn-row'+(o.cls?' '+o.cls:'')+'"'+(o.go?' role="button" tabindex="0" data-go="'+o.go+'"':'')+'>'+
+      '<span class="row-ic">'+o.icon+'</span><div class="earn-mid"><div class="t">'+o.t+'</div><div class="d">'+o.d+'</div></div>'+
+      '<span class="pts">'+o.pts+'</span></div>';
+  }
+  function renderPoints(){
+    var box=$('#pointsBox');
+    var a=state.currentUser;
+    if(!a){ box.innerHTML='<div class="empty-state"><div class="em">'+ICONS.star+'</div><p>Sign up to start earning Guxo Points.</p><button class="btn btn-primary" data-go="signup">Sign up or log in</button></div>'; return; }
+    var t=tierInfo(), c=profileCompletion(a), linked=linkedApps(), items=ledger();
+    var profileDone=items.some(function(e){ return e.key==='profile-bonus'; });
+    box.innerHTML =
+      pointsCardHtml(false)+
+      '<div class="sec-title">Ways to earn</div>'+
+      earnRowHtml({icon:ICONS.planeIc, t:'Book flights', d:'1 point for every ETB 10 you pay', pts:'Book ›', go:'book'})+
+      earnRowHtml({icon:ICONS.userIc, t:'Complete your profile', d:profileDone ? 'Done — thanks!' : c.pct+'% complete', pts:(profileDone?'✓ ':'')+'+'+PROFILE_BONUS, cls:profileDone?'done':'', go:profileDone?null:'edit-profile'})+
+      SIBLING_APPS.map(function(app){
+        if(!app.live) return earnRowHtml({icon:ICONS.link, t:'Link '+app.name, d:app.what+' · coming soon', pts:'+'+LINK_BONUS, cls:'soon'});
+        var got=items.some(function(e){ return e.key==='link-'+app.id; });
+        return earnRowHtml({icon:ICONS.link, t:'Link '+app.name, d:got ? (linked[app.id] ? 'Linked' : 'Bonus earned') : app.what+' — shares this balance', pts:(got?'✓ ':'')+'+'+LINK_BONUS, cls:got?'done':'', go:got?null:'connected'});
+      }).join('')+
+      '<div class="sec-title">Use your points</div>'+
+      '<p class="info-note" style="margin-top:0">Every 10 points = ETB 1 off. Turn on “Use Guxo Points” at checkout once you have '+MIN_REDEEM+' or more.</p>'+
+      '<div class="sec-title">Tiers</div>'+
+      TIERS.map(function(x){
+        var here=x.name===t.tier;
+        return earnRowHtml({icon:ICONS.star, t:x.name+(here?' · your tier':''), d:x.min ? fmtPts(x.min)+' lifetime points' : 'Where everyone starts', pts:here?'✓':'', cls:here?'done':''});
+      }).join('')+
+      '<div class="sec-title">History</div>'+
+      (items.length
+        ? items.map(function(e){
+            return '<div class="ledger-row"><div><div class="t">'+esc(e.text)+'</div><div class="d">'+fmtDate(new Date(e.at))+' · '+fmtTime(new Date(e.at))+'</div></div>'+
+              '<span class="v'+(e.pts<0?' neg':'')+'">'+(e.pts>0?'+':'−')+fmtPts(Math.abs(e.pts))+'</span></div>';
+          }).join('')
+        : '<p class="ledger-empty">No points yet — book a flight or finish your profile to get started.</p>');
   }
 
   /* ---------- boot: splash, then gate the app behind sign up / log in ---------- */
