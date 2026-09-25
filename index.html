@@ -272,6 +272,38 @@
     .filter-field{flex:0 1 220px;}
   }
 
+  /* From/To swap (idea from Megabus' search form) */
+  .od-wrap{position:relative;}
+  .swap-btn{
+    position:absolute; right:14px; top:50%; transform:translateY(-50%); z-index:2;
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--line-strong); background:var(--surface);
+    color:var(--primary); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0;
+    box-shadow:0 1px 2px rgba(9,21,64,.08), 0 4px 10px rgba(9,21,64,.08); transition:transform .25s ease;
+  }
+  .swap-btn:hover{border-color:var(--primary);}
+  .swap-btn.spin{transform:translateY(-50%) rotate(180deg);}
+
+  /* Flight details timeline (idea from Megabus' "Show journey") */
+  .fd-toggle{display:flex; align-items:center; justify-content:center; gap:6px; width:100%; margin-top:8px; border:none; background:none; font-family:inherit; font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer; padding:6px; border-radius:8px;}
+  .fd-toggle .car{transition:transform .2s ease; display:inline-block;}
+  .fd-toggle[aria-expanded="true"] .car{transform:rotate(180deg);}
+  .fd-body{border-top:1px dashed var(--line); margin-top:6px; padding-top:12px; animation:screenIn .25s ease;}
+  .fd-body[hidden]{display:none;}
+  .fd-stop{display:grid; grid-template-columns:62px 14px 1fr; column-gap:10px;}
+  .fd-time{font-family:'Poppins',sans-serif; font-weight:700; font-size:0.8125rem; text-align:right;}
+  .fd-rail{position:relative; display:flex; justify-content:center;}
+  .fd-rail::before{content:''; width:10px; height:10px; border-radius:50%; border:2px solid var(--primary); background:var(--surface); margin-top:3px; position:relative; z-index:1;}
+  .fd-stop.mid .fd-rail::before{border-color:var(--ink-faint); width:8px; height:8px;}
+  .fd-stop.last .fd-rail::before{background:var(--primary);}
+  .fd-rail::after{content:''; position:absolute; top:12px; bottom:-4px; left:50%; border-left:2px dotted var(--line-strong); transform:translateX(-50%);}
+  .fd-stop.last .fd-rail::after{display:none;}
+  .fd-where{padding-bottom:14px; min-width:0;}
+  .fd-where b{display:block; font-size:0.8125rem;}
+  .fd-where span{display:block; font-size:0.7188rem; color:var(--ink-soft); margin-top:1px;}
+  .fd-leg{font-size:0.6875rem; color:var(--ink-faint); font-weight:600;}
+  .fd-note{font-size:0.7188rem; color:var(--ink-soft); background:var(--surface-alt); border-radius:10px; padding:9px 11px; margin-top:2px; line-height:1.5;}
+  .fd-note b{color:var(--ink);}
+
   .flight-list{display:flex; flex-direction:column; gap:12px; margin-top:12px;}
   .flight-card{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:var(--shadow);}
   .fc-top{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
@@ -834,6 +866,17 @@
                 <option value="any">Any number of stops</option>
                 <option value="nonstop">Nonstop only</option>
                 <option value="onestop">1 stop only</option>
+              </select>
+            </div>
+          </div>
+          <div class="filter-field">
+            <label for="fTime">Departure time</label>
+            <div class="select-wrap">
+              <select class="sort-select" id="fTime">
+                <option value="any">Any time</option>
+                <option value="morning">Morning · before 12 PM</option>
+                <option value="afternoon">Afternoon · 12–5 PM</option>
+                <option value="evening">Evening · after 5 PM</option>
               </select>
             </div>
           </div>
@@ -1588,8 +1631,11 @@
         '<button type="button" class="trip-seg-btn active" data-trip="one">One way</button>'+
         '<button type="button" class="trip-seg-btn" data-trip="round">Round trip</button>'+
       '</div>'+
-      '<div class="field"><label>From</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-origin" list="'+ns+'-originList" autocomplete="off" placeholder="City or airport code"></div></div>'+
-      '<div class="field"><label>To</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-dest" list="'+ns+'-destList" autocomplete="off" placeholder="City or airport code"></div></div>'+
+      '<div class="od-wrap">'+
+        '<div class="field"><label>From</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-origin" list="'+ns+'-originList" autocomplete="off" placeholder="City or airport code"></div></div>'+
+        '<div class="field"><label>To</label><div class="input-icon">'+ICONS.pin+'<input type="text" class="f-dest" list="'+ns+'-destList" autocomplete="off" placeholder="City or airport code"></div></div>'+
+        '<button type="button" class="swap-btn" aria-label="Swap departure and destination" title="Swap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M3 8l4-4 4 4"/><path d="M17 20V4M13 16l4 4 4-4"/></svg></button>'+
+      '</div>'+
       '<datalist id="'+ns+'-originList"></datalist>'+
       '<datalist id="'+ns+'-destList"></datalist>'+
       '<div class="row2">'+
@@ -1626,6 +1672,14 @@
     fillDatalist(destList, state.origin);
     originInp.value=formatAirport(airport(state.origin));
     destInp.value=formatAirport(airport(state.destination));
+    var swapBtn=root.querySelector('.swap-btn');
+    swapBtn.addEventListener('click', function(){
+      var o=originInp.value; originInp.value=destInp.value; destInp.value=o;
+      var oa=findAirportByInput(originInp.value), da=findAirportByInput(destInp.value);
+      fillDatalist(destList, oa?oa.code:null);
+      fillDatalist(originList, da?da.code:null);
+      swapBtn.classList.toggle('spin');
+    });
     originInp.addEventListener('input', function(){
       var a=findAirportByInput(originInp.value);
       fillDatalist(destList, a?a.code:null);
@@ -1862,16 +1916,24 @@
     range.oninput=function(){ $('#priceCapLabel').textContent='up to '+fmtPrice(range.value); renderFlightList(); };
     $('#fStops').value='any';
     $('#fStops').onchange=renderFlightList;
+    $('#fTime').value='any';
+    $('#fTime').onchange=renderFlightList;
     $('#sortSelect').onchange=renderFlightList;
   }
 
   function renderFlightList(){
     var stopsFilter=$('#fStops').value;
+    var timeFilter=$('#fTime').value;
+    var leg=currentLegParams();
     var maxPrice=Number($('#priceRange').value);
     var list=state.flights.filter(function(f){
       if(stopsFilter==='nonstop' && f.stops!==0) return false;
       if(stopsFilter==='onestop' && f.stops!==1) return false;
       if(f.price>maxPrice) return false;
+      var h=f.dep.getHours();
+      if(timeFilter==='morning' && h>=12) return false;
+      if(timeFilter==='afternoon' && (h<12 || h>=17)) return false;
+      if(timeFilter==='evening' && h<17) return false;
       return true;
     });
     var sort=$('#sortSelect').value;
@@ -1901,10 +1963,38 @@
           '<span class="rl-time">'+fmtTime(f.arr)+'</span>'+
         '</div>'+
         '<div class="fc-bottom"><span class="fc-sub">'+stopsLabel+'</span><div class="fc-price"><span class="price-num">'+fmtPrice(f.price)+'</span><span class="fc-tax">+'+fmtPrice(Math.round(f.price*0.10))+' est. tax</span></div></div>'+
-        '<button type="button" class="btn btn-primary btn-block" style="margin-top:10px;">Select flight</button>';
-      card.querySelector('button').addEventListener('click', function(){ chooseFlight(f); });
+        '<button type="button" class="fd-toggle" aria-expanded="false">Flight details <span class="car" aria-hidden="true">▾</span></button>'+
+        '<div class="fd-body" hidden>'+flightDetailsHtml(f, leg.o, leg.d)+'</div>'+
+        '<button type="button" class="btn btn-primary btn-block select-flight" style="margin-top:10px;">Select flight</button>';
+      card.querySelector('.select-flight').addEventListener('click', function(){ chooseFlight(f); });
+      var fdToggle=card.querySelector('.fd-toggle'), fdBody=card.querySelector('.fd-body');
+      fdToggle.addEventListener('click', function(){
+        var open=fdBody.hidden;
+        fdBody.hidden=!open;
+        fdToggle.setAttribute('aria-expanded', String(open));
+        fdToggle.firstChild.textContent = open ? 'Hide details ' : 'Flight details ';
+      });
       box.appendChild(card);
     });
+  }
+
+  // Timeline of the trip: airports, layover and when to arrive.
+  function flightDetailsHtml(f, o, d){
+    var oa=airport(o), da=airport(d);
+    function stop(cls, time, title, sub){
+      return '<div class="fd-stop '+cls+'"><span class="fd-time">'+time+'</span><span class="fd-rail"></span>'+
+        '<div class="fd-where"><b>'+title+'</b><span>'+sub+'</span></div></div>';
+    }
+    var html=stop('first', fmtTime(f.dep), oa.city+' ('+oa.code+')', oa.name+' · '+AIRLINE.name+' '+f.flightNo);
+    if(f.stops){
+      var la=airport(f.layoverCity);
+      var flyMin=f.durationMin-f.layoverMin;
+      var firstLeg=Math.round(flyMin/2);
+      var landAt=new Date(f.dep.getTime()+firstLeg*60000);
+      html+=stop('mid', fmtTime(landAt), 'Stop in '+la.city+' ('+la.code+')', f.layoverMin+'m layover at '+la.name+' · stay on board or follow crew');
+    }
+    html+=stop('last', fmtTime(f.arr), da.city+' ('+da.code+')', da.name+' · '+fmtDur(f.durationMin)+' total');
+    return html+'<p class="fd-note"><b>Check-in closes 45 minutes before departure.</b> Arrive at '+oa.name+' at least 1 hour early for domestic flights. Standard &amp; Flex fares include 1 checked bag.</p>';
   }
 
   /* ---------- fare & seats ---------- */
