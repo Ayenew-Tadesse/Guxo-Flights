@@ -155,6 +155,19 @@
   .auth-sub{font-size:0.8438rem; color:var(--ink-faint); text-align:center; margin:6px 0 26px;}
   .auth-form{display:flex; flex-direction:column; gap:12px;}
   .auth-form .btn{margin-top:6px;}
+  /* Step-by-step sign-up: one small group of fields per page. */
+  .su-top{display:flex; align-items:center; gap:10px; margin-bottom:18px; min-height:34px;}
+  .su-top .btn-back[hidden]{display:none;}
+  .su-progress{flex:1; display:flex; gap:5px;}
+  .su-progress span{flex:1; height:5px; border-radius:3px; background:var(--line); transition:background .25s ease;}
+  .su-progress span.on{background:linear-gradient(90deg, var(--primary), var(--primary-2));}
+  .su-step-label{font-size:0.6875rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--primary); text-align:center; margin-bottom:6px;}
+  .su-step{display:flex; flex-direction:column; gap:12px;}
+  .su-step:not([hidden]){animation:screenIn .32s cubic-bezier(.22,.61,.36,1);}
+  .contact-toggle{display:flex; gap:4px; background:var(--surface-alt); border:1px solid var(--line); border-radius:13px; padding:4px;}
+  .contact-toggle button{flex:1; border:none; background:transparent; border-radius:10px; padding:9px 8px; font-family:inherit; font-size:0.8125rem; font-weight:700; color:var(--ink-soft); cursor:pointer;}
+  .contact-toggle button.active{background:var(--surface); color:var(--primary); box-shadow:0 1px 2px rgba(9,21,64,.08), 0 2px 6px rgba(9,21,64,.06);}
+  .su-review{font-size:0.75rem; color:var(--ink-soft); text-align:center; margin-top:2px;}
   /* Guests have no account, so hide account-only controls. */
   body.is-guest .icon-bell, body.is-guest .icon-user{display:none;}
   body.is-guest .hero-copy{cursor:default;}
@@ -765,31 +778,52 @@
     <section class="screen" id="screen-signup" hidden>
       <div class="auth-wrap">
         <div class="auth-logo"><span class="logo-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-7-4 12-4-4-6 3 2-6-8 2z"/></svg></span><span class="logo-word">Guxo Flights</span></div>
-        <h1 class="auth-title">Create your account</h1>
-        <p class="auth-sub">Sign up to search, book, and manage your Ethiopian domestic flights.</p>
-        <form id="signupForm" class="auth-form">
-          <div class="row2">
-            <div class="field"><label>First name</label><input type="text" id="suFirstName" placeholder="First name"></div>
-            <div class="field"><label>Last name</label><input type="text" id="suLastName" placeholder="Last name"></div>
-          </div>
-          <div class="field"><label for="suDob">Date of birth</label><input type="text" id="suDob" class="dob-input" inputmode="numeric" autocomplete="bday" placeholder="mm/dd/yyyy" maxlength="10" aria-describedby="suDobHint"><span class="dob-hint" id="suDobHint">Type month, day, then year</span></div>
-          <div class="field"><label>Street address</label><input type="text" id="suStreet" placeholder="e.g. Bole Road 14"></div>
-          <div class="field"><label>City</label><input type="text" id="suCity" placeholder="e.g. Addis Ababa"></div>
-          <div class="field"><label>Email address</label><input type="text" id="suEmail" placeholder="you@example.com"></div>
-          <div class="field">
-            <label>Password</label>
-            <input type="password" id="suPassword" placeholder="Create a password">
-            <div class="pw-meter">
-              <div class="pw-meter-bar" id="suPwMeter"><span></span><span></span><span></span></div>
-              <div class="pw-meter-label" id="suPwMeterLabel"></div>
+        <div class="su-top">
+          <span class="btn-back icon-back" id="suBack" role="button" tabindex="0" aria-label="Previous step" hidden></span>
+          <div class="su-progress" id="suProgress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        </div>
+        <p class="su-step-label" id="suStepLabel">Step 1 of 4</p>
+        <h1 class="auth-title" id="suTitle">What's your name?</h1>
+        <p class="auth-sub" id="suSub">Let's start with the basics.</p>
+        <form id="signupForm" class="auth-form" novalidate>
+          <div class="su-step" data-step="1">
+            <div class="row2">
+              <div class="field"><label for="suFirstName">First name</label><input type="text" id="suFirstName" autocomplete="given-name" placeholder="First name"></div>
+              <div class="field"><label for="suLastName">Last name</label><input type="text" id="suLastName" autocomplete="family-name" placeholder="Last name"></div>
             </div>
+            <div class="field"><label for="suDob">Date of birth</label><input type="text" id="suDob" class="dob-input" inputmode="numeric" autocomplete="bday" placeholder="mm/dd/yyyy" maxlength="10" aria-describedby="suDobHint"><span class="dob-hint" id="suDobHint">Type month, day, then year</span></div>
           </div>
-          <div class="field"><label>Confirm password</label><input type="password" id="suConfirmPassword" placeholder="Re-enter your password"></div>
+          <div class="su-step" data-step="2" hidden>
+            <div class="field"><label for="suStreet">Street address</label><input type="text" id="suStreet" autocomplete="address-line1" placeholder="e.g. Bole Road 14"></div>
+            <div class="field"><label for="suCity">City</label><input type="text" id="suCity" autocomplete="address-level2" placeholder="e.g. Addis Ababa"></div>
+          </div>
+          <div class="su-step" data-step="3" hidden>
+            <div class="contact-toggle" role="tablist" aria-label="Contact method">
+              <button type="button" class="active" data-contact="email" role="tab" aria-selected="true">Email</button>
+              <button type="button" data-contact="phone" role="tab" aria-selected="false">Phone number</button>
+            </div>
+            <div class="field" id="suEmailField"><label for="suEmail">Email address</label><input type="text" id="suEmail" inputmode="email" autocomplete="email" placeholder="you@example.com"></div>
+            <div class="field" id="suPhoneField" hidden><label for="suPhone">Phone number</label><input type="text" id="suPhone" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx" maxlength="13"></div>
+          </div>
+          <div class="su-step" data-step="4" hidden>
+            <div class="field">
+              <label for="suPassword">Password</label>
+              <input type="password" id="suPassword" autocomplete="new-password" placeholder="Create a password">
+              <div class="pw-meter">
+                <div class="pw-meter-bar" id="suPwMeter"><span></span><span></span><span></span></div>
+                <div class="pw-meter-label" id="suPwMeterLabel"></div>
+              </div>
+            </div>
+            <div class="field"><label for="suConfirmPassword">Confirm password</label><input type="password" id="suConfirmPassword" autocomplete="new-password" placeholder="Re-enter your password"></div>
+            <p class="su-review" id="suReview"></p>
+          </div>
           <p class="form-error" id="signupError" hidden></p>
-          <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+          <button type="submit" class="btn btn-primary btn-block" id="suNext">Continue</button>
         </form>
-        <div class="auth-or">or</div>
-        <button type="button" class="btn btn-ghost btn-block guest-btn">Continue as guest</button>
+        <div id="suGuestBlock">
+          <div class="auth-or">or</div>
+          <button type="button" class="btn btn-ghost btn-block guest-btn">Continue as guest</button>
+        </div>
         <p class="auth-switch">Already have an account? <a href="#" id="toLogin">Log in</a></p>
       </div>
     </section>
@@ -801,7 +835,7 @@
         <h1 class="auth-title">Welcome back</h1>
         <p class="auth-sub">Log in to continue to your account.</p>
         <form id="loginForm" class="auth-form">
-          <div class="field"><label>Email</label><input type="text" id="liEmail" placeholder="you@example.com"></div>
+          <div class="field"><label for="liEmail">Email or phone number</label><input type="text" id="liEmail" autocomplete="username" placeholder="you@example.com or 09xx xxx xxx"></div>
           <div class="field"><label>Password</label><input type="password" id="liPassword" placeholder="Your password"></div>
           <p class="form-error" id="loginError" hidden></p>
           <button type="submit" class="btn btn-primary btn-block">Log in</button>
@@ -1508,6 +1542,10 @@
         inp.addEventListener(evt, function(){ setTimeout(render,0); });
       });
       inp.addEventListener('blur', render);
+      // The mask cancels every edit, which also swallows Enter; submit explicitly.
+      inp.addEventListener('keydown', function(e){
+        if(e.key==='Enter' && inp.form){ e.preventDefault(); inp.form.requestSubmit(); }
+      });
     }
     return {
       parse:parse,
@@ -1546,37 +1584,82 @@
   }
   $('#suPassword').addEventListener('input', updatePasswordMeter);
 
+  /* ---------- sign up, one step per page ---------- */
+  var SU_STEPS=[
+    {title:"What's your name?", sub:"Let's start with the basics."},
+    {title:'Where do you live?', sub:'We use your address for bookings and receipts.'},
+    {title:'How can we reach you?', sub:"You'll use this to log in and get trip updates."},
+    {title:'Create a password', sub:'Almost done — keep your account safe.'}
+  ];
+  var suStep=1, suContact='email';
+  function suError(msg){ var err=$('#signupError'); err.textContent=msg; err.hidden=!msg; }
+  function showSuStep(n){
+    suStep=n;
+    $all('#signupForm .su-step').forEach(function(el){ el.hidden = +el.getAttribute('data-step')!==n; });
+    $all('#suProgress span').forEach(function(bar, i){ bar.classList.toggle('on', i<n); });
+    $('#suStepLabel').textContent='Step '+n+' of '+SU_STEPS.length;
+    $('#suTitle').textContent=SU_STEPS[n-1].title;
+    $('#suSub').textContent=SU_STEPS[n-1].sub;
+    $('#suBack').hidden = n===1;
+    $('#suGuestBlock').hidden = n!==1;
+    $('#suNext').textContent = n===SU_STEPS.length ? 'Create account' : 'Continue';
+    if(n===SU_STEPS.length){
+      var first=$('#suFirstName').value.trim();
+      var contact = suContact==='email' ? $('#suEmail').value.trim() : $('#suPhone').value.trim();
+      $('#suReview').textContent = first ? 'Signing up as '+first+' · '+contact : '';
+    }
+    suError('');
+    var firstInput=$('#signupForm .su-step[data-step="'+n+'"] input:not([hidden])');
+    if(firstInput && cur.screen==='signup') setTimeout(function(){ firstInput.focus(); }, 30);
+  }
+  function setSuContact(kind){
+    suContact=kind;
+    $all('.contact-toggle button').forEach(function(b){
+      var on=b.getAttribute('data-contact')===kind;
+      b.classList.toggle('active', on); b.setAttribute('aria-selected', String(on));
+    });
+    $('#suEmailField').hidden = kind!=='email';
+    $('#suPhoneField').hidden = kind!=='phone';
+    suError('');
+    $(kind==='email' ? '#suEmail' : '#suPhone').focus();
+  }
+  $all('.contact-toggle button').forEach(function(b){
+    b.addEventListener('click', function(){ setSuContact(b.getAttribute('data-contact')); });
+  });
+  function goSuBack(){ if(suStep>1) showSuStep(suStep-1); }
+  $('#suBack').addEventListener('click', goSuBack);
+  $('#suBack').addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goSuBack(); } });
+  function validPhone(v){ var d=v.replace(/\D/g,''); return d.length>=9 && d.length<=12 && !/[^\d\s+]/.test(v); }
+  // Each step checks its own fields; returns an error message or ''.
+  function checkSuStep(n){
+    if(n===1){
+      if(!$('#suFirstName').value.trim() || !$('#suLastName').value.trim()) return 'Enter your first and last name.';
+      var d=suDob.parse(); if(d.error) return d.error;
+    }
+    if(n===2){
+      if($('#suStreet').value.trim().length<2 || !$('#suCity').value.trim()) return 'Enter your street address and city.';
+    }
+    if(n===3){
+      if(suContact==='email' && $('#suEmail').value.trim().indexOf('@')<1) return 'Enter a valid email address.';
+      if(suContact==='phone' && !validPhone($('#suPhone').value.trim())) return 'Enter a valid phone number, e.g. 0911 234 567.';
+    }
+    if(n===4){
+      if($('#suPassword').value.length<6) return 'Choose a password with at least 6 characters.';
+      if($('#suPassword').value!==$('#suConfirmPassword').value) return 'Passwords do not match.';
+    }
+    return '';
+  }
   $('#signupForm').addEventListener('submit', function(e){
     e.preventDefault();
+    var msg=checkSuStep(suStep);
+    if(msg) return suError(msg);
+    if(suStep<SU_STEPS.length) return showSuStep(suStep+1);
     var firstName=$('#suFirstName').value.trim(), lastName=$('#suLastName').value.trim();
-    var dobResult=suDob.parse();
-    var street=$('#suStreet').value.trim(), city=$('#suCity').value.trim();
-    var email=$('#suEmail').value.trim();
-    var pw=$('#suPassword').value, pw2=$('#suConfirmPassword').value;
-    var err=$('#signupError');
-
-    if(firstName.length<1 || lastName.length<1){
-      err.textContent='Enter your first and last name.'; err.hidden=false; return;
-    }
-    if(dobResult.error){
-      err.textContent=dobResult.error; err.hidden=false; return;
-    }
-    var dob=dobResult.value;
-    if(street.length<2 || city.length<1){
-      err.textContent='Enter your street address and city.'; err.hidden=false; return;
-    }
-    if(email.indexOf('@')<1){
-      err.textContent='Enter a valid email address.'; err.hidden=false; return;
-    }
-    if(pw.length<6){
-      err.textContent='Choose a password with at least 6 characters.'; err.hidden=false; return;
-    }
-    if(pw!==pw2){
-      err.textContent='Passwords do not match.'; err.hidden=false; return;
-    }
-    err.hidden=true;
-    var name=(firstName+' '+lastName).trim();
-    var account={firstName:firstName, lastName:lastName, name:name, dob:dob, street:street, city:city, email:email, password:pw};
+    var name=firstName+' '+lastName;
+    var email = suContact==='email' ? $('#suEmail').value.trim() : '';
+    var phone = suContact==='phone' ? $('#suPhone').value.trim() : '';
+    var account={firstName:firstName, lastName:lastName, name:name, dob:suDob.parse().value,
+      street:$('#suStreet').value.trim(), city:$('#suCity').value.trim(), email:email, phone:phone, password:$('#suPassword').value};
     saveAccount(account);
     state.currentUser=account;
     saveTraveler(name, email);
@@ -1584,13 +1667,21 @@
     navigateWithLoading(function(){ stack=[]; cur={screen:'home', tab:'home'}; render(); });
   });
 
+  // Log in with the email or the phone number the account was made with.
+  function loginIdOf(acc){ return acc ? (acc.email || acc.phone || '') : ''; }
+  function matchesLogin(acc, id){
+    if(!acc || !id) return false;
+    if(id.indexOf('@')>-1) return !!acc.email && acc.email.toLowerCase()===id.toLowerCase();
+    var digits=id.replace(/\D/g,'');
+    return !!acc.phone && digits.length>0 && acc.phone.replace(/\D/g,'')===digits;
+  }
   $('#loginForm').addEventListener('submit', function(e){
     e.preventDefault();
-    var email=$('#liEmail').value.trim(), pw=$('#liPassword').value;
+    var loginId=$('#liEmail').value.trim(), pw=$('#liPassword').value;
     var err=$('#loginError');
     var account=loadAccount();
-    if(!account || account.email.toLowerCase()!==email.toLowerCase() || account.password!==pw){
-      err.textContent='Incorrect email or password.'; err.hidden=false; return;
+    if(!matchesLogin(account, loginId) || account.password!==pw){
+      err.textContent='Incorrect email, phone number or password.'; err.hidden=false; return;
     }
     err.hidden=true;
     state.currentUser=account;
@@ -1600,7 +1691,7 @@
 
   $('#toLogin').addEventListener('click', function(e){
     e.preventDefault();
-    var acc=loadAccount(); if(acc) $('#liEmail').value=acc.email;
+    var acc=loadAccount(); if(acc) $('#liEmail').value=loginIdOf(acc);
     navigateWithLoading(function(){ cur={screen:'login', tab:null}; render(); });
   });
   $('#toSignup').addEventListener('click', function(e){
@@ -1753,8 +1844,11 @@
 
   /* ---------- navigation ---------- */
   var SCREEN_FOR_TAB={home:'home', book:'book', trips:'trips', checkin:'checkin'};
+  var lastScreen=null;
   function render(){
     $all('.screen').forEach(function(el){ el.hidden = el.id !== 'screen-'+cur.screen; });
+    if(cur.screen==='signup' && lastScreen!=='signup') showSuStep(1);
+    lastScreen=cur.screen;
     var tabbar=$('#tabbar');
     if(cur.tab){
       tabbar.hidden=false;
@@ -2674,7 +2768,7 @@
     var linkedCount=SIBLING_APPS.filter(function(x){ return linked[x.id]; }).length;
     box.innerHTML =
       '<div class="profile-head"><div class="profile-avatar">'+esc(initialsFor(a.name))+'</div>'+
-        '<div class="profile-name">'+esc(a.name)+'</div><div class="profile-sub">'+esc(a.email)+'</div>'+
+        '<div class="profile-name">'+esc(a.name)+'</div><div class="profile-sub">'+esc(a.email || a.phone)+'</div>'+
         '<button type="button" class="btn btn-tint btn-sm profile-edit-btn" data-go="edit-profile">Edit profile</button></div>'+
       (c.pct<100 ? '<button type="button" class="complete-card" data-go="edit-profile">'+completeCardHtml(a)+'</button>' : '')+
       pointsCardHtml(true)+
@@ -2701,7 +2795,7 @@
       return navigateWithLoading(function(){
         stack=[]; cur={screen:'login', tab:null}; render();
         var acc=loadAccount(); var liEmail=$('#liEmail');
-        if(liEmail) liEmail.value = acc ? acc.email : '';
+        if(liEmail) liEmail.value = loginIdOf(acc);
       });
     }
     if(go.indexOf('soon:')===0) return showToast(go.slice(5)+' is coming soon');
@@ -2747,7 +2841,8 @@
     var first=$('#epFirst').value.trim(), last=$('#epLast').value.trim(), email=$('#epEmail').value.trim();
     var phone=$('#epPhone').value.trim(), street=$('#epStreet').value.trim(), city=$('#epCity').value.trim();
     if(!first || !last) return fail('Enter your first and last name.');
-    if(email.indexOf('@')<1) return fail('Enter a valid email address.');
+    if(!email && !phone) return fail('Add an email address or a phone number so you can log in.');
+    if(email && email.indexOf('@')<1) return fail('Enter a valid email address.');
     var phoneDigits=phone.replace(/\D/g,'');
     if(phone && (phoneDigits.length<9 || phoneDigits.length>12 || /[^\d\s+]/.test(phone))) return fail('Enter a valid phone number, e.g. 0911 234 567.');
     var dob='';
@@ -2846,7 +2941,7 @@
         var status = !app.live ? '<span class="at-status soon">Coming soon</span>' : on ? '<span class="at-status linked">Linked</span>' : '<span class="at-status off">Not linked</span>';
         var body = !app.live
           ? app.name+' is still being built. You\'ll be able to link it here when it launches.'
-          : on ? 'Linked '+fmtDate(new Date(linked[app.id].at))+' as '+esc(a.email)+'. Trips on '+app.name+' earn Guxo Points in this same balance.'
+          : on ? 'Linked '+fmtDate(new Date(linked[app.id].at))+' as '+esc(a.email || a.phone)+'. Trips on '+app.name+' earn Guxo Points in this same balance.'
           : 'Link '+app.name+' to share your account and points. Get +'+LINK_BONUS+' points the first time you link.';
         var actions = !app.live ? ''
           : on ? '<div class="at-actions">'+(app.url ? '<a class="btn btn-ghost btn-sm" href="'+app.url+'" target="_blank" rel="noopener">Open '+app.name+'</a>' : '')+
@@ -2930,7 +3025,7 @@
     var nextScreen;
     if(existingAccount){
       var liEmail=$('#liEmail');
-      if(liEmail) liEmail.value=existingAccount.email;
+      if(liEmail) liEmail.value=loginIdOf(existingAccount);
       nextScreen='login';
     } else {
       nextScreen='signup';
