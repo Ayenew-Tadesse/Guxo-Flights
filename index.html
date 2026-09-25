@@ -434,15 +434,41 @@
   .empty-state p{font-size:0.8438rem; margin-bottom:14px;}
 
   /* NOTIFICATIONS */
-  .notif-item{display:flex; gap:12px; padding:14px 2px; border-bottom:1px solid var(--line);}
-  .notif-icon{width:38px;height:38px;border-radius:50%; background:var(--surface-alt); display:flex;align-items:center;justify-content:center; color:var(--primary); flex-shrink:0;}
+  /* Each notification is a button that opens the page it's about. Unread
+     ones are tinted with a dot; opening one marks it read. */
+  .notif-head{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:4px 2px 10px;}
+  .notif-count{font-size:0.75rem; font-weight:600; color:var(--ink-faint);}
+  .notif-count b{color:var(--primary); font-weight:700;}
+  .notif-markall{border:none; background:none; padding:6px 4px; font-family:inherit; font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer; border-radius:8px;}
+  .notif-markall:disabled{color:var(--ink-faint); cursor:default;}
+  .notif-list{display:flex; flex-direction:column; gap:6px;}
+  .notif-item{
+    display:flex; align-items:flex-start; gap:12px; width:100%; text-align:left;
+    padding:14px 12px; border:1px solid transparent; border-radius:14px;
+    background:transparent; font-family:inherit; color:var(--ink); cursor:pointer;
+    transition:background .15s, border-color .15s, transform .15s;
+  }
+  .notif-item:hover{background:var(--surface-alt);}
+  .notif-item:active{transform:scale(.99);}
+  .notif-item.unread{background:color-mix(in srgb, var(--primary) 6%, var(--surface)); border-color:color-mix(in srgb, var(--primary) 18%, var(--line));}
+  .notif-item.unread:hover{background:color-mix(in srgb, var(--primary) 10%, var(--surface));}
+  .notif-icon{width:38px;height:38px;border-radius:50%; background:var(--surface-alt); display:flex;align-items:center;justify-content:center; color:var(--ink-faint); flex-shrink:0;}
   .notif-icon svg{width:17px;height:17px;}
-  .notif-item.unread .notif-icon{background:color-mix(in srgb, var(--primary) 18%, transparent);}
+  .notif-item.unread .notif-icon{background:color-mix(in srgb, var(--primary) 18%, transparent); color:var(--primary);}
+  .notif-item.tone-bad .notif-icon{color:var(--bad);}
+  .notif-item.tone-bad.unread .notif-icon{background:color-mix(in srgb, var(--bad) 14%, transparent);}
+  .notif-item.tone-good .notif-icon{color:var(--good);}
+  .notif-item.tone-good.unread .notif-icon{background:color-mix(in srgb, var(--good) 16%, transparent);}
   .notif-mid{flex:1; min-width:0;}
-  .notif-mid .t{font-size:0.8438rem; font-weight:700;}
+  .notif-mid .t{font-size:0.8438rem; font-weight:600; color:var(--ink-soft);}
+  .notif-item.unread .notif-mid .t{font-weight:700; color:var(--ink);}
   .notif-mid .d{font-size:0.7812rem; color:var(--ink-soft); margin-top:2px;}
-  .notif-mid .ts{font-size:0.6875rem; color:var(--ink-faint); margin-top:4px;}
-  .notif-dot{width:8px;height:8px;border-radius:50%; background:var(--primary-2); flex-shrink:0; margin-top:5px;}
+  .notif-mid .ts{display:flex; align-items:center; gap:6px; font-size:0.6875rem; color:var(--ink-faint); margin-top:4px;}
+  .notif-mid .go{font-weight:700; color:var(--primary);}
+  .notif-end{display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0; align-self:stretch;}
+  .notif-dot{width:8px;height:8px;border-radius:50%; background:var(--primary-2); margin-top:5px;}
+  .notif-chev{color:var(--ink-faint); margin-top:auto; margin-bottom:auto; font-size:1.1rem; line-height:1;}
+  .icon-btn .dot[hidden]{display:none;}
 
   /* PROFILE */
   .profile-head{display:flex; flex-direction:column; align-items:center; text-align:center; padding-block:20px 6px;}
@@ -897,6 +923,7 @@
     plane:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-7-4 12-4-4-6 3 2-6-8 2z"/></svg>',
     empty:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16l20-7-4 12-4-4-6 3 2-6-8 2z"/></svg>',
     refresh:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>',
+    check:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     cancelX:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9.5 9.5 5 5M14.5 9.5l-5 5"/></svg>'
   };
   document.querySelectorAll('.icon-btn.icon-bell').forEach(function(el){
@@ -1328,6 +1355,7 @@
     if(cur.screen==='trips') renderTrips();
     if(cur.screen==='checkin') renderCheckin();
     if(cur.screen==='notifications') renderNotifications();
+    updateBellDots();
     if(cur.screen==='profile') renderProfile();
   }
   function updateTabIndicator(tabId){
@@ -1907,7 +1935,7 @@
   $('#cancelModal').addEventListener('click', function(e){ if(e.target===this) closeCancelModal(); });
   $('#cancelModalConfirm').addEventListener('click', function(){
     var t=state.trips.filter(function(x){return x.id===cancelTargetId;})[0];
-    if(t){ t.cancelled=true; }
+    if(t){ t.cancelled=true; t.cancelledAt=new Date(); }
     closeCancelModal();
     renderTrips();
   });
@@ -1938,7 +1966,7 @@
         (t.checkedIn ? '<span class="checkedin-badge">Checked in</span>' : '')+
         '<button type="button" class="btn btn-primary btn-block" style="margin-top:12px;">'+(t.checkedIn?'View boarding pass':'Check-In')+'</button>';
       var btn=card.querySelector('button');
-      btn.addEventListener('click', function(){ t.checkedIn=true; openBoardingPass(t.id); });
+      btn.addEventListener('click', function(){ if(!t.checkedIn){ t.checkedIn=true; t.checkedInAt=new Date(); } openBoardingPass(t.id); });
       box.appendChild(card);
     });
   }
@@ -2013,27 +2041,86 @@
   }
 
   /* ---------- notifications ---------- */
-  function renderNotifications(){
-    var box=$('#notifBox');
+  // Every notification has a stable id, a time, and where it leads. Trip
+  // events start unread; opening one (or "Mark all as read") marks it read,
+  // and the bell's dot only shows while something is unread.
+  var readNotifs={};
+  var NOTIF_EPOCH=Date.now();
+  function fmtAgo(d){
+    var mins=Math.max(0, Math.round((Date.now()-d.getTime())/60000));
+    if(mins<1) return 'Just now';
+    if(mins<60) return mins+'m ago';
+    var hrs=Math.round(mins/60);
+    if(hrs<24) return hrs+'h ago';
+    var days=Math.round(hrs/24);
+    return days+'d ago';
+  }
+  function tripRouteText(t){
+    var out=t.legs[0];
+    return t.tripType==='round' && t.legs[1] ? (out.origin+' ⇄ '+out.destination) : (out.origin+' → '+out.destination);
+  }
+  function buildNotifications(){
     var items=[];
     state.trips.forEach(function(t){
-      var out=t.legs[0];
-      var routeTxt = t.tripType==='round' && t.legs[1] ? (out.origin+' ⇄ '+out.destination) : (out.origin+' → '+out.destination);
-      var flightTxt = t.legs.map(function(lg){ return lg.flightNo; }).join(' / ');
-      items.push({icon:ICONS.plane, unread:true, t:'Booking confirmed', d:AIRLINE.name+' '+flightTxt+' · '+routeTxt+' · PNR '+t.pnr, ts:'Just now'});
-      if(t.checkedIn) items.push({icon:ICONS.pin, unread:false, t:'Checked in', d:'You\'re checked in for '+routeTxt+'.', ts:'Just now'});
-      if(t.cancelled) items.push({icon:ICONS.pin, unread:true, t:'Trip cancelled', d:'Your booking '+routeTxt+' · PNR '+t.pnr+' has been cancelled.', ts:'Just now'});
+      var routeTxt=tripRouteText(t);
+      var flightTxt=t.legs.map(function(lg){ return lg.flightNo; }).join(' / ');
+      if(t.cancelled) items.push({id:'cancel-'+t.id, icon:ICONS.cancelX, tone:'bad', fresh:true, at:t.cancelledAt||t.bookedAt,
+        t:'Trip cancelled', d:'Your booking '+routeTxt+' · PNR '+t.pnr+' has been cancelled.', go:'View booking',
+        open:function(){ renderTripDetail(t.id); }});
+      if(t.checkedIn) items.push({id:'checkin-'+t.id, icon:ICONS.check, tone:'good', fresh:true, at:t.checkedInAt||t.bookedAt,
+        t:'Checked in', d:'You\'re checked in for '+routeTxt+'. Your boarding pass is ready.', go:'Boarding pass',
+        open:function(){ openBoardingPass(t.id); }});
+      items.push({id:'booked-'+t.id, icon:ICONS.plane, fresh:true, at:t.bookedAt,
+        t:'Booking confirmed', d:AIRLINE.name+' '+flightTxt+' · '+routeTxt+' · PNR '+t.pnr, go:'View booking',
+        open:function(){ renderTripDetail(t.id); }});
     });
-    items.push({icon:ICONS.pin, unread:false, t:'Price drop', d:'Fares on ADD → Bahir Dar are down — now from ETB 1,240.', ts:'2h ago'});
-    items.push({icon:ICONS.bell, unread:false, t:'Check-in reminder', d:'Check-in opens 24 hours before departure for domestic flights.', ts:'1d ago'});
-    items.push({icon:ICONS.plane, unread:false, t:'Welcome to Guxo Flights', d:'Book, manage, and check in to your flights — all in one place.', ts:'3d ago'});
-
+    items.sort(function(a,b){ return b.at-a.at; });
+    items.push({id:'price-drop', icon:ICONS.pin, fresh:true, at:new Date(NOTIF_EPOCH-2*3600000),
+      t:'Price drop', d:'Fares on ADD → Bahir Dar are down — now from ETB 1,240.', go:'See flights',
+      open:function(){ performSearch('ADD','BJR',todayDateStr(),1,'one',null); }});
+    items.push({id:'checkin-reminder', icon:ICONS.bell, fresh:false, at:new Date(NOTIF_EPOCH-86400000),
+      t:'Check-in reminder', d:'Check-in opens 24 hours before departure for domestic flights.', go:'Go to check-in',
+      open:function(){ showRoot('checkin'); }});
+    items.push({id:'welcome', icon:ICONS.plane, fresh:false, at:new Date(NOTIF_EPOCH-3*86400000),
+      t:'Welcome to Guxo Flights', d:'Book, manage, and check in to your flights — all in one place.', go:'Book a flight',
+      open:function(){ showRoot('book'); }});
+    items.forEach(function(it){ it.unread = it.fresh && !readNotifs[it.id]; });
+    return items;
+  }
+  function updateBellDots(){
+    var unread=buildNotifications().some(function(it){ return it.unread; });
+    $all('.icon-bell .dot').forEach(function(dot){ dot.hidden=!unread; });
+    $all('.icon-bell').forEach(function(el){ el.setAttribute('aria-label', unread ? 'Notifications (unread)' : 'Notifications'); });
+  }
+  function renderNotifications(){
+    var box=$('#notifBox');
+    var items=buildNotifications();
     if(!items.length){ box.innerHTML='<div class="empty-state"><div class="em">'+ICONS.empty+'</div><p>No notifications yet.</p></div>'; return; }
-    box.innerHTML='';
+    var unreadCount=items.filter(function(it){ return it.unread; }).length;
+    box.innerHTML=
+      '<div class="notif-head"><span class="notif-count">'+(unreadCount ? '<b>'+unreadCount+' unread</b> · ' : 'All caught up · ')+items.length+' total</span>'+
+      '<button type="button" class="notif-markall" id="notifMarkAll"'+(unreadCount?'':' disabled')+'>Mark all as read</button></div>'+
+      '<div class="notif-list" id="notifList"></div>';
+    var list=$('#notifList');
     items.forEach(function(it){
-      var row=document.createElement('div'); row.className='notif-item'+(it.unread?' unread':'');
-      row.innerHTML='<span class="notif-icon">'+it.icon+'</span><div class="notif-mid"><div class="t">'+it.t+'</div><div class="d">'+it.d+'</div><div class="ts">'+it.ts+'</div></div>'+(it.unread?'<span class="notif-dot"></span>':'');
-      box.appendChild(row);
+      var row=document.createElement('button'); row.type='button';
+      row.className='notif-item'+(it.unread?' unread':'')+(it.tone?' tone-'+it.tone:'');
+      row.setAttribute('aria-label', (it.unread?'Unread: ':'')+it.t+'. '+it.d+' '+it.go);
+      row.innerHTML='<span class="notif-icon">'+it.icon+'</span>'+
+        '<div class="notif-mid"><div class="t">'+it.t+'</div><div class="d">'+it.d+'</div>'+
+        '<div class="ts"><span>'+fmtAgo(it.at)+'</span><span aria-hidden="true">·</span><span class="go">'+it.go+'</span></div></div>'+
+        '<span class="notif-end">'+(it.unread?'<span class="notif-dot"></span>':'')+'<span class="notif-chev" aria-hidden="true">›</span></span>';
+      row.addEventListener('click', function(){
+        readNotifs[it.id]=true;
+        updateBellDots();
+        it.open();
+      });
+      list.appendChild(row);
+    });
+    $('#notifMarkAll').addEventListener('click', function(){
+      items.forEach(function(it){ readNotifs[it.id]=true; });
+      updateBellDots();
+      renderNotifications();
     });
   }
 
