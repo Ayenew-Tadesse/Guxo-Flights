@@ -1,0 +1,50 @@
+# Portfolio screenshots: after every change to main, book a flight in the app
+# and photograph each step; publish the pictures on the "screenshots" branch,
+# at the same addresses every time:
+#   https://raw.githubusercontent.com/<owner>/<repo>/screenshots/phone/<name>.jpg
+# A portfolio case study that links to them always shows the current app.
+# If a run fails, the previous pictures stay published.
+name: Portfolio screenshots
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: screenshots
+  cancel-in-progress: true
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install the browser (not part of the app; the app has no build step)
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Serve the app
+        run: |
+          python3 -m http.server 4100 &
+          npx --yes wait-on http://localhost:4100/index.html --timeout 30000
+      - name: Take the screenshots
+        run: node scripts/screenshots.mjs out
+        env:
+          BASE_URL: http://localhost:4100
+      - name: Publish on the screenshots branch
+        working-directory: out
+        run: |
+          git init -q -b screenshots
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Screenshots of ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" screenshots
