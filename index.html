@@ -884,6 +884,32 @@
   /* Large coloured blocks use the portfolio's deep navy; buttons, links and
      selections use its accent blue. */
   .splash-wrap, .summary-strip, .bp-top:not(.cancelled), .points-card, .leg-banner{background:var(--navy);}
+
+  /* Notifications use the Profile list's look: plain rows split by thin
+     lines, a 32px round icon, regular text, gray details and chevron.
+     Unread ones have a blue icon and a blue dot. */
+  .notif-head{padding:4px 6px 6px;}
+  .notif-count{font-size:0.875rem; color:var(--ink-faint);}
+  .notif-count b{color:var(--primary); font-weight:400;}
+  .notif-markall{font-size:0.875rem; font-weight:400;}
+  .notif-list{gap:0;}
+  .notif-item, .notif-item.unread{gap:12px; padding:12px 6px; border:0; border-bottom:1px solid var(--line); border-radius:10px; background:transparent; font-weight:400; align-items:center;}
+  .notif-item:hover, .notif-item.unread:hover{background:color-mix(in srgb, var(--primary) 4%, transparent);}
+  .notif-item:active{transform:none;}
+  .notif-icon, .notif-item.unread .notif-icon{width:32px; height:32px; background:var(--surface-alt); color:var(--ink-faint);}
+  .notif-item.unread .notif-icon{color:var(--primary);}
+  .notif-icon svg{width:16px; height:16px;}
+  .notif-mid .t, .notif-item.unread .notif-mid .t{font-size:0.875rem; font-weight:400; color:var(--ink);}
+  .notif-mid .d{font-size:0.8125rem; color:var(--ink-soft); line-height:1.45;}
+  .notif-mid .ts{font-size:0.75rem; color:var(--ink-faint);}
+  .notif-mid .go{font-weight:400; color:var(--primary);}
+  .notif-end{flex-direction:row; align-items:center; align-self:center; gap:8px;}
+  .notif-dot{background:var(--primary); margin-top:0;}
+  .notif-chev{color:var(--ink-faint); font-size:0.875rem; margin:0;}
+
+  /* Blocks built as buttons keep regular body text; only their titles are medium. */
+  .complete-card, .points-card, .pay-type-tile{font-weight:400;}
+  .complete-top span:first-child, .guest-cta h3{font-weight:500;}
 </style>
 
 <div class="stage">
