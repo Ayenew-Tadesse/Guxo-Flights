@@ -2,7 +2,7 @@
 <title>Guxo Flights</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     /* Colours from the portfolio (Locked-in), so the app and the case study match. */
@@ -27,7 +27,7 @@
     --mc-yellow:#F2A900;
     --shadow:0 1px 2px rgba(15,26,45,.06), 0 4px 12px rgba(15,26,45,.07);
     --radius:12px;
-    --font:'Figtree',ui-sans-serif,system-ui,sans-serif;
+    --font:'Lexend',ui-sans-serif,system-ui,sans-serif;
     --font-display:var(--font);
     --primary-hover:#2256AD;
     --maxw:760px;
@@ -807,8 +807,9 @@
   @media (min-width:1024px){ .icon-btn.icon-bell, .icon-btn.icon-user{width:42px; height:42px;} }
 
   /* ===== Sharper look (type, buttons, cards) =====
-     Figtree in the regular weight everywhere, in sentence case (no
-     capitals, no bold); flat solid buttons; compact cards. */
+     Lexend in sentence case (no capitals, no bold): medium for labels,
+     headings and buttons, regular for the rest; flat solid buttons;
+     compact cards. */
   body{font-size:1rem; line-height:1.45; -webkit-font-smoothing:antialiased;}
   h1,h2,h3,h4{letter-spacing:-.005em;}
   .hero-copy h1, .splash-word, .auth-title, .profile-name, .bp-top h2, .leg-codes, .tb-title, .summary-strip .r{
@@ -867,9 +868,13 @@
   .price-line.total{font-size:1.0625rem;}
   .tab-btn{font-size:0.75rem;}
 
-  /* No bold anywhere: headings, <b> and <strong> use the regular weight too.
-     Size and colour carry the emphasis. */
-  b, strong, h1, h2, h3, h4, h5, h6, th, button, .btn{font-weight:400;}
+  /* No bold anywhere: <b> and <strong> use the regular weight; labels,
+     headings and buttons use medium (500). Size and colour carry the rest. */
+  b, strong, th{font-weight:400;}
+  h1, h2, h3, h4, h5, h6, button, .btn, .tb-title, .sec-title, .logo-word,
+  .field label, .filter-field > label, .trip-seg-btn, .contact-toggle button,
+  .tab-btn.active span, .fare-card h4, .price-num, .leg-codes{font-weight:500;}
+  ::placeholder{color:var(--ink-faint); opacity:1;}
 
   /* Large coloured blocks use the portfolio's deep navy; buttons, links and
      selections use its accent blue. */
