@@ -30,13 +30,15 @@
     --font:'Lexend',ui-sans-serif,system-ui,sans-serif;
     --font-display:var(--font);
     --primary-hover:#2256AD;
+    --cta:#03045E; --cta-hover:#1C1D7A; --cta-ink:#FFFFFF;
+    --hint:#9CA3AF;
     --maxw:760px;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
       --bg:#0B1526; --frame:#0B1526; --surface:#122036; --surface-alt:#182A47;
       --ink:#F0F3FA; --ink-soft:#AAB6CC; --ink-faint:#7C88A3;
-      --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66;
+      --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
       --line:#25385C; --line-strong:#33496F;
       --good:#4FCE9A; --bad:#E37272; --telebirr:#4FCB68;
       --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.3);
@@ -45,7 +47,7 @@
   :root[data-theme="dark"]{
     --bg:#0B1526; --frame:#0B1526; --surface:#122036; --surface-alt:#182A47;
     --ink:#F0F3FA; --ink-soft:#AAB6CC; --ink-faint:#7C88A3;
-    --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66;
+    --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
     --line:#25385C; --line-strong:#33496F;
     --good:#4FCE9A; --bad:#E37272; --telebirr:#4FCB68;
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.3);
@@ -835,11 +837,11 @@
   .btn{min-height:48px; border-radius:8px; padding:12px 20px; font-size:1rem; font-weight:400; letter-spacing:.01em;
     transition:background-color .15s ease, border-color .15s ease, color .15s ease, transform .08s ease;}
   .btn:active:not(:disabled){transform:translateY(1px);}
-  .btn-primary{background:var(--primary); color:var(--primary-ink); box-shadow:none;}
-  .btn-primary:hover:not(:disabled){background:var(--primary-hover);}
+  .btn-primary{background:var(--cta); color:var(--cta-ink); box-shadow:none;}
+  .btn-primary:hover:not(:disabled){background:var(--cta-hover);}
   .btn-primary:disabled{opacity:1; background:var(--line); color:var(--ink-faint);}
-  .btn-ghost{background:var(--surface); border:1.5px solid var(--primary); color:var(--primary);}
-  .btn-ghost:hover{background:color-mix(in srgb, var(--primary) 8%, var(--surface));}
+  .btn-ghost{background:var(--surface); border:1.5px solid var(--cta); color:var(--cta);}
+  .btn-ghost:hover{background:color-mix(in srgb, var(--cta) 8%, var(--surface));}
   .btn-tint:hover{background:color-mix(in srgb, var(--primary) 18%, var(--surface));}
   .btn-danger:hover{background:color-mix(in srgb, var(--bad) 18%, var(--surface));}
   .btn-sm{min-height:40px; padding:8px 14px; font-size:0.875rem;}
@@ -861,7 +863,8 @@
   .fare-card h4{font-size:1.0625rem; font-weight:400;}
   .fare-card .p{font-size:1.125rem;}
   .date-chip{border-radius:8px;}
-  .date-chip .p{font-size:0.875rem;}
+  .date-chip .p{font-size:0.8125rem; white-space:nowrap;}
+  .date-chip{padding:8px 4px;}
   .date-chip .d{font-size:0.75rem;}
   .pc-bal{font-size:2rem;}
   .bp-pnr b{font-size:1.5rem;}
@@ -874,7 +877,9 @@
   h1, h2, h3, h4, h5, h6, button, .btn, .tb-title, .sec-title, .logo-word,
   .field label, .filter-field > label, .trip-seg-btn, .contact-toggle button,
   .tab-btn.active span, .fare-card h4, .price-num, .leg-codes{font-weight:500;}
-  ::placeholder{color:var(--ink-faint); opacity:1;}
+  /* Hints in empty boxes and the icons inside boxes are a neutral gray. */
+  ::placeholder{color:var(--hint); opacity:1;}
+  .input-icon svg{color:var(--hint);}
 
   /* Large coloured blocks use the portfolio's deep navy; buttons, links and
      selections use its accent blue. */
