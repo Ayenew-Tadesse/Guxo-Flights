@@ -379,13 +379,10 @@
   .rl-track svg{position:absolute; left:50%; top:50%; transform:translate(-50%,-55%); width:13px; color:var(--ink-faint);}
   .fc-bottom{display:flex; align-items:flex-end; justify-content:space-between; margin-top:10px;}
   .fc-sub{font-size:0.8125rem; color:var(--ink-faint);}
-  .results-info-card{background:color-mix(in srgb, var(--good) 14%, var(--surface)); border:1px solid color-mix(in srgb, var(--good) 40%, var(--line)); border-radius:10px; padding:12px 14px; margin-top:12px;}
-  .results-info-card .fc-sub{color:var(--ink-soft); font-weight:400;}
   .fc-price{display:flex; flex-direction:column; align-items:flex-end; gap:1px;}
   .price-num{font-family:var(--font); font-weight:400; font-size:1rem; color:var(--primary);}
   .fc-tax{font-size:0.625rem; color:var(--ink-faint);}
   .no-results{color:var(--ink-faint); text-align:center; padding-block:34px; font-size:0.9375rem;}
-  .trend-note{font-size:0.8125rem; color:var(--ink-faint); margin-top:4px;}
   .leg-banner{
     display:flex; align-items:center; gap:10px; background:var(--primary);
     color:#fff; border-radius:10px; padding:11px 14px; margin-bottom:12px;
@@ -1037,10 +1034,6 @@
         <div class="leg-banner" id="resultsLegBanner" hidden>
           <span class="leg-step" id="resultsLegStep">1</span>
           <div class="leg-copy"><div class="leg-title" id="resultsLegTitle">Outbound flight</div><div class="leg-sub" id="resultsLegSub">Choose your departing flight</div></div>
-        </div>
-        <div class="results-info-card">
-          <p class="fc-sub" id="resultsMeta">—</p>
-          <p class="trend-note" id="trendNote"></p>
         </div>
         <div class="date-strip" id="dateStrip"></div>
         <div class="filter-row">
@@ -2151,10 +2144,7 @@
 
   function renderResultsHeader(){
     var p=currentLegParams();
-    var a=airport(p.d);
     $('#resultsTitle').textContent = p.o+' → '+p.d;
-    $('#resultsMeta').textContent = fmtDate(new Date(p.date+'T00:00:00'))+' · '+state.passengers+' passenger'+(state.passengers>1?'s':'')+' to '+a.city;
-    $('#trendNote').textContent = 'Fares on '+p.o+' → '+p.d+' have stayed within a similar range over the last few weeks.';
 
     var banner=$('#resultsLegBanner');
     if(state.tripType==='round'){
