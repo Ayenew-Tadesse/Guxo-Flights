@@ -1038,12 +1038,12 @@
         <div class="date-strip" id="dateStrip"></div>
         <div class="filter-row">
           <div class="filter-field">
-            <label for="fStops">Stops</label>
+            <label for="fStops">Number of stops</label>
             <div class="select-wrap">
               <select class="sort-select" id="fStops">
-                <option value="any">Any number of stops</option>
-                <option value="nonstop">Nonstop only</option>
-                <option value="onestop">1 stop only</option>
+                <option value="any">Any</option>
+                <option value="nonstop">Nonstop</option>
+                <option value="onestop">1 stop</option>
               </select>
             </div>
           </div>
@@ -2180,7 +2180,7 @@
         var price = off===0
           ? Math.min.apply(null, state.flights.map(function(f){return f.price;}))
           : cheapestPriceFor(o,d,dstr);
-        chip.innerHTML='<div class="d">'+dt.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'})+'</div><div class="p">from '+fmtPrice(price)+'</div>';
+        chip.innerHTML='<div class="d">'+dt.toLocaleDateString(undefined,{weekday:'short', month:'short', day:'numeric'})+'</div><div class="p">'+fmtPrice(price)+'</div>';
         chip.addEventListener('click', function(){
           if(state.bookingLeg==='out'){ state.departDate=dstr; if(state.returnDate && state.returnDate<dstr) state.returnDate=dstr; }
           else { state.returnDate=dstr; }
