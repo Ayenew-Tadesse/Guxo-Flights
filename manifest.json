@@ -1,0 +1,37 @@
+{
+  "app": "Guxo Flights",
+  "device": "phone",
+  "size": "390x844",
+  "taken_at": "2026-10-04T20:07:38.252Z",
+  "commit": "ad9c26ab69f5c4af48eb298f628b5291de53959f",
+  "shots": [
+    {
+      "file": "phone/home.jpg",
+      "label": "Search"
+    },
+    {
+      "file": "phone/results.jpg",
+      "label": "Results"
+    },
+    {
+      "file": "phone/fare.jpg",
+      "label": "Choose a fare"
+    },
+    {
+      "file": "phone/seat.jpg",
+      "label": "Pick a seat"
+    },
+    {
+      "file": "phone/payment.jpg",
+      "label": "Pay by phone"
+    },
+    {
+      "file": "phone/confirm.jpg",
+      "label": "You're booked"
+    },
+    {
+      "file": "phone/boarding.jpg",
+      "label": "Boarding pass"
+    }
+  ]
+}
