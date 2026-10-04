@@ -100,21 +100,23 @@
   .icon-btn .dot{position:absolute; top:6px; right:7px; width:6px;height:6px;border-radius:50%; background:var(--primary-2); border:1.5px solid var(--frame);}
   /* Top-right account buttons: a solid bell with an unread count, and an
      initials avatar for the profile. */
-  .icon-btn.icon-bell, .icon-btn.icon-user{width:38px; height:38px; transition:transform .15s ease, box-shadow .15s ease;}
+  /* Same size as the app's other round buttons (back, swap); they grow with them on bigger screens. */
+  .icon-btn.icon-bell, .icon-btn.icon-user{transition:transform .15s ease, box-shadow .15s ease;}
   .icon-btn.icon-bell:hover, .icon-btn.icon-user:hover{transform:translateY(-1px);}
   .icon-btn.icon-bell{background:var(--surface); border:1px solid var(--line); color:var(--primary); box-shadow:0 1px 2px rgba(15,26,45,.06), 0 4px 12px rgba(15,26,45,.08);}
-  .icon-btn.icon-bell svg{width:19px; height:19px;}
+  .icon-btn.icon-bell svg{width:18px; height:18px;}
   .topbar.on-hero .icon-btn.icon-bell{background:rgba(255,255,255,.96); border-color:transparent; color:var(--primary); box-shadow:0 6px 16px rgba(15,26,45,.28);}
   .icon-btn .badge{
-    position:absolute; top:-5px; right:-5px; min-width:19px; height:19px; padding:0 5px; border-radius:10px;
-    background:var(--bad); color:#fff; font-size:0.625rem; font-weight:400; line-height:1;
-    display:flex; align-items:center; justify-content:center; border:2px solid var(--frame); font-variant-numeric:tabular-nums;
+    position:absolute; top:-4px; right:-4px; min-width:16px; height:16px; padding:0 4px; border-radius:8px;
+    background:var(--bad); color:#fff; font-size:0.5625rem; font-weight:400; line-height:1;
+    display:flex; align-items:center; justify-content:center; border:1.5px solid var(--frame); font-variant-numeric:tabular-nums;
   }
   .topbar.on-hero .icon-btn .badge{border-color:#fff;}
   .icon-btn .badge[hidden]{display:none;}
-  .icon-btn.icon-user{background:var(--primary); border:2px solid var(--frame); color:#fff; box-shadow:0 1px 2px rgba(15,26,45,.08), 0 4px 12px rgba(15,26,45,.12);}
-  .topbar.on-hero .icon-btn.icon-user{background:var(--primary); border-color:rgba(255,255,255,.96); color:#fff; box-shadow:0 6px 16px rgba(15,26,45,.28);}
-  .icon-user .avatar-initials{font-size:0.875rem; font-weight:400; letter-spacing:.02em; line-height:1;}
+  /* The profile button: a placeholder profile picture (a person outline), not a photo or initials. */
+  .icon-btn.icon-user{padding:0; overflow:hidden; background:#C9D6EA; border:1.5px solid var(--frame); box-shadow:0 1px 2px rgba(15,26,45,.08), 0 4px 12px rgba(15,26,45,.12);}
+  .topbar.on-hero .icon-btn.icon-user{border-color:rgba(255,255,255,.96); box-shadow:0 6px 16px rgba(15,26,45,.28);}
+  .avatar-ph{display:block; width:100%; height:100%;}
 
   /* SCREENS */
   .screen[hidden]{display:none;}
@@ -563,7 +565,7 @@
 
   /* PROFILE */
   .profile-head{display:flex; flex-direction:column; align-items:center; text-align:center; padding-block:20px 6px;}
-  .profile-avatar{width:76px;height:76px;border-radius:50%; background:var(--primary); color:#fff; display:flex;align-items:center;justify-content:center; font-family:var(--font); font-weight:400; font-size:1.5rem;}
+  .profile-avatar{width:76px;height:76px;border-radius:50%; overflow:hidden; background:#C9D6EA; color:#fff; display:flex;align-items:center;justify-content:center; font-family:var(--font); font-weight:400; font-size:1.5rem;}
   .profile-name{font-size:1.1875rem; margin-top:12px;}
   .profile-sub{font-size:0.875rem; color:var(--ink-faint); margin-top:2px;}
   .profile-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 6px; border-bottom:1px solid var(--line); font-size:0.875rem; font-weight:400; cursor:pointer; border-radius:10px;}
@@ -805,8 +807,6 @@
     :root{--maxw:1200px;}
     html{font-size:120%;}
   }
-  @media (min-width:600px){ .icon-btn.icon-bell, .icon-btn.icon-user{width:40px; height:40px;} }
-  @media (min-width:1024px){ .icon-btn.icon-bell, .icon-btn.icon-user{width:42px; height:42px;} }
 
   /* ===== Sharper look (type, buttons, cards) =====
      Lexend in sentence case (no capitals, no bold): medium for labels,
@@ -1370,8 +1370,9 @@
     el.addEventListener('click', function(){ goTo('notifications'); });
     el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goTo('notifications'); } });
   });
+  var AVATAR_PH='<svg class="avatar-ph" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#C9D6EA"/><circle cx="20" cy="15.5" r="7" fill="#F4F7FB"/><path d="M5.5 40c1.6-8.2 7.6-12.6 14.5-12.6S32.9 31.8 34.5 40z" fill="#F4F7FB"/></svg>';
   document.querySelectorAll('.icon-btn.icon-user').forEach(function(el){
-    el.insertAdjacentHTML('afterbegin', '<span class="avatar-initials" aria-hidden="true"></span>');
+    el.insertAdjacentHTML('afterbegin', AVATAR_PH);
     el.setAttribute('role','button'); el.setAttribute('tabindex','0'); el.setAttribute('aria-label','Profile');
     el.addEventListener('click', function(){ goTo('profile'); });
     el.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goTo('profile'); } });
@@ -1463,12 +1464,6 @@
   }
   function saveAccount(acc){
     try{ window.localStorage.setItem(ACCOUNT_KEY, JSON.stringify(acc)); }catch(e){ /* storage unavailable */ }
-  }
-  function initialsFor(name){
-    if(!name) return '?';
-    var parts=name.trim().split(/\s+/).filter(Boolean);
-    var first=parts[0]?parts[0][0]:'', last=parts.length>1?parts[parts.length-1][0]:'';
-    return (first+last).toUpperCase() || '?';
   }
   function firstNameOf(name){
     if(!name) return 'there';
@@ -2911,9 +2906,6 @@
     var count=buildNotifications().filter(function(it){ return it.unread; }).length;
     $all('.icon-bell .badge').forEach(function(b){ b.textContent = count>9 ? '9+' : String(count); b.hidden=!count; });
     $all('.icon-bell').forEach(function(el){ el.setAttribute('aria-label', count ? 'Notifications, '+count+' unread' : 'Notifications'); });
-    // The profile button shows the signed-in traveler's initials.
-    var initials = state.currentUser ? initialsFor(state.currentUser.name) : '';
-    $all('.icon-user .avatar-initials').forEach(function(el){ el.textContent=initials; });
     $all('.icon-user').forEach(function(el){ el.setAttribute('aria-label', state.currentUser ? 'Profile, '+state.currentUser.name : 'Profile'); });
   }
   function renderNotifications(){
@@ -2964,7 +2956,7 @@
     var a=state.currentUser;
     if(!a){
       box.innerHTML =
-        '<div class="profile-head"><div class="profile-avatar">?</div><div class="profile-name">Guest</div><div class="profile-sub">Browsing without an account</div></div>'+
+        '<div class="profile-head"><div class="profile-avatar">'+AVATAR_PH+'</div><div class="profile-name">Guest</div><div class="profile-sub">Browsing without an account</div></div>'+
         '<div class="guest-cta"><h3>Earn Guxo Points on every trip</h3>'+
           '<p>Create a free account to save cards, link Guxo and Gexi, and spend points at checkout.</p>'+
           '<button type="button" class="btn btn-primary" data-go="signup">Sign up or log in</button></div>'+
@@ -2975,7 +2967,7 @@
     var c=profileCompletion(a), cards=savedCards(), linked=linkedApps(), bal=pointsBalance();
     var linkedCount=SIBLING_APPS.filter(function(x){ return linked[x.id]; }).length;
     box.innerHTML =
-      '<div class="profile-head"><div class="profile-avatar">'+esc(initialsFor(a.name))+'</div>'+
+      '<div class="profile-head"><div class="profile-avatar">'+AVATAR_PH+'</div>'+
         '<div class="profile-name">'+esc(a.name)+'</div><div class="profile-sub">'+esc(a.email || a.phone)+'</div>'+
         '<button type="button" class="btn btn-tint btn-sm profile-edit-btn" data-go="edit-profile">Edit profile</button></div>'+
       (c.pct<100 ? '<button type="button" class="complete-card" data-go="edit-profile">'+completeCardHtml(a)+'</button>' : '')+
