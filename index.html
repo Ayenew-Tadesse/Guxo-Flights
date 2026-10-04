@@ -843,7 +843,12 @@
   .btn-sm{min-height:40px; padding:8px 14px; font-size:0.875rem;}
   .trip-seg-btn, .contact-toggle button{border-radius:6px; font-size:0.9375rem; font-weight:400;}
   .trip-seg-btn.active, .contact-toggle button.active{background:var(--primary); color:var(--primary-ink); box-shadow:none;}
-  .trip-toggle, .contact-toggle{border-radius:8px; padding:3px;}
+  /* The two-way switches: no inner padding or gap; each half fills its side of the box
+     (a little taller inside, so the switch keeps its height), corners matching the box. */
+  .trip-toggle, .contact-toggle{border-radius:8px; padding:0; gap:0; overflow:hidden;}
+  .trip-seg-btn{padding:13px 8px;}
+  .contact-toggle button{padding:12px 8px;}
+  .trip-seg-btn, .contact-toggle button{border-radius:7px;}
   select, input[type=date], input[type=text], input[type=password]{font-size:1rem; border-radius:8px; background:var(--surface); border:1.5px solid var(--line-strong);}
   select.sort-select{border-radius:8px; font-size:0.875rem; padding-left:12px; padding-right:30px; text-overflow:ellipsis; background:var(--surface); border:1.5px solid var(--line-strong);}
   .pax-stepper{background:var(--surface); border:1.5px solid var(--line-strong); border-radius:8px;}
