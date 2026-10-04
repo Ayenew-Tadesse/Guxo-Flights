@@ -16,7 +16,7 @@
     --primary:#2B67CC;
     --primary-2:#6EA3F2;
     --primary-ink:#FFFFFF;
-    --navy:#03045E;
+    --navy:#2B67CC; /* the large coloured blocks: the same blue as the One way button */
     --line:#D4DCEA;
     --line-strong:#B7C4DA;
     --good:#16875A;
@@ -30,7 +30,7 @@
     --font:'Lexend',ui-sans-serif,system-ui,sans-serif;
     --font-display:var(--font);
     --primary-hover:#2256AD;
-    --cta:#03045E; --cta-hover:#1C1D7A; --cta-ink:#FFFFFF;
+    --cta:var(--primary); --cta-hover:var(--primary-hover); --cta-ink:#FFFFFF; /* main buttons: the One way blue */
     --hint:#9CA3AF;
     --maxw:760px;
   }
@@ -38,7 +38,7 @@
     :root:not([data-theme="light"]){
       --bg:#0B1526; --frame:#0B1526; --surface:#122036; --surface-alt:#182A47;
       --ink:#F0F3FA; --ink-soft:#AAB6CC; --ink-faint:#7C88A3;
-      --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
+      --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#2B67CC; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
       --line:#25385C; --line-strong:#33496F;
       --good:#4FCE9A; --bad:#E37272; --telebirr:#4FCB68;
       --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.3);
@@ -47,7 +47,7 @@
   :root[data-theme="dark"]{
     --bg:#0B1526; --frame:#0B1526; --surface:#122036; --surface-alt:#182A47;
     --ink:#F0F3FA; --ink-soft:#AAB6CC; --ink-faint:#7C88A3;
-    --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#1D3B66; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
+    --primary:#6EA3F2; --primary-2:#9CC0F6; --primary-ink:#0B1526; --primary-hover:#8DB8F5; --navy:#2B67CC; --cta:#6EA3F2; --cta-hover:#8DB8F5; --cta-ink:#0B1526; --hint:#6B7280;
     --line:#25385C; --line-strong:#33496F;
     --good:#4FCE9A; --bad:#E37272; --telebirr:#4FCB68;
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.3);
@@ -373,7 +373,7 @@
   .rl-dur{font-size:0.75rem; color:var(--ink-faint); font-weight:400;}
   .rl-dots{display:flex; align-items:center; gap:4px; width:100%;}
   .dot{width:8px;height:8px;border-radius:50%; flex-shrink:0;}
-  .dot-a{background:linear-gradient(135deg,#03045E,var(--primary));}
+  .dot-a{background:var(--primary);}
   .dot-b{background:var(--primary-2);}
   .rl-track{flex:1; height:0; border-top:1.6px dashed var(--line-strong); position:relative;}
   .rl-track svg{position:absolute; left:50%; top:50%; transform:translate(-50%,-55%); width:13px; color:var(--ink-faint);}
@@ -638,7 +638,7 @@
   .icon-x{width:30px;height:30px;border-radius:50%; border:1px solid var(--line); background:var(--surface); color:var(--ink-faint); display:flex;align-items:center;justify-content:center; cursor:pointer; padding:0;}
   .icon-x:hover{color:var(--bad); border-color:color-mix(in srgb, var(--bad) 40%, var(--line));}
   .card-preview{
-    background:linear-gradient(135deg, #03045E, var(--primary)); color:#fff; border-radius:12px; padding:20px; margin:14px auto 4px;
+    background:var(--navy); color:#fff; border-radius:12px; padding:20px; margin:14px auto 4px;
     aspect-ratio:1.7; width:100%; max-width:360px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--shadow);
   }
   .cp-top{display:flex; justify-content:space-between; align-items:center;}
@@ -882,8 +882,7 @@
   ::placeholder{color:var(--hint); opacity:1;}
   .input-icon svg{color:var(--hint);}
 
-  /* Large coloured blocks use the portfolio's deep navy; buttons, links and
-     selections use its accent blue. */
+  /* Large coloured blocks use the same blue as the One way button (--navy, kept as the name). */
   .splash-wrap, .summary-strip, .bp-top:not(.cancelled), .points-card, .leg-banner{background:var(--navy);}
 
   /* Notifications use the Profile list's look: plain rows split by thin
